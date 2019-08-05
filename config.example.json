@@ -1,4 +1,5 @@
 {
     "sessionsecret": "your-key-here",
-    "mongourl": "mongodb://localhost:27017/battles"
+    "mongourl": "mongodb://localhost:27017/battles",
+    "env": "dev or prod"
 }

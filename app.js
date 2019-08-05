@@ -57,8 +57,8 @@ app.use(session({
   store: new mongoStore({ mongooseConnection: mongoose.connection }),
   cookie: {
     httpOnly: true,
-    expires: 1000 * 60 * 60 * 24 * 30
-    /*secure: true*/
+    expires: 1000 * 60 * 60 * 24 * 30,
+    secure: config.env != undefined && config.env == "dev" ? false : true
   }
 }));
 app.use(compression());
