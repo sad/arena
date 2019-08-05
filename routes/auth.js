@@ -51,7 +51,8 @@ module.exports = (passport) => {
                         "fas fa-cog": "beta tester"
                     },
                     "battles": {
-                        "participated": 0
+                        "participated": 0,
+                        "won": 0
                     }
                 }
                 record.password = record.hashPassword(password);
