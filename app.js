@@ -27,8 +27,6 @@ if(!config || !config.sessionsecret || config.sessionsecret.trim() == "" ||!conf
   process.exit(1);
 }
 
-console.log(config.mongourl);
-
 mongoose.connect(config.mongourl, { useNewUrlParser: true });
 require('./helpers/passport')(passport);
 
