@@ -41,6 +41,9 @@
               <article><i class="fas fa-toolbox"></i> gear: <strong><%= data.gear %></strong></article>
             <% } %>
           <article><i class="fas fa-asterisk"></i> participated in <strong><a href="<%= username %>/battles"><%= data.battles.participated %> battles</a></strong></article>
+          <% if(data.battles.participated > 0){ %>
+              <article><i class="fas fa-trophy"></i><strong><%= Math.round(data.battles.won / data.battles.participated * 10000) / 100 %> winrate</a></strong></article>
+          <% } %>
           <article><i class="fas fa-clock"></i> joined <strong><%= joined %></strong></article>
         </div><br/>
 
