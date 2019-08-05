@@ -92,4 +92,13 @@ router.get('/invites/infinite/:code', isAuthed, (req, res, next) => {
     });
 });
 
+router.get('/users', isAuthed, (req, res, next) => {
+    users.find({}, (err, doc) => {
+        res.render('ops/users', {
+            users: doc
+        });
+    });
+});
+
+
 module.exports = router;
