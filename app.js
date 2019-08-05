@@ -11,7 +11,8 @@ var mongoStore = require('connect-mongo')(session);
 var helmet = require('helmet');
 var minify = require('express-minify');
 var minifyHTML = require('express-minify-html');
-var compression = require('compression')
+var compression = require('compression');
+var config = require('./config.json');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,6 +21,11 @@ var opsRouter = require('./routes/ops');
 var battleRouter = require('./routes/battle');
 
 var app = express();
+
+if(!config || !config.sessionsecret || config.sessionsecret.trim() == "") {
+  console.log("config.json is invalid, please refer to config.example.json.");
+  process.exit(1);
+}
 
 mongoose.connect('mongodb://localhost:27017/battles', { useNewUrlParser: true });
 require('./helpers/passport')(passport);
@@ -44,7 +50,7 @@ app.use(minify());
 app.use(minifyHTML({ override: true, htmlMinifier: { collapseWhitespace: false } }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'asd',
+  secret: config.sessionsecret,
   saveUninitialized: false,
   resave: false,
   store: new mongoStore({ mongooseConnection: mongoose.connection })
