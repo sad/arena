@@ -24,12 +24,12 @@
                 <% if(data.socials && data.socials["fab fa-soundcloud"] && data.socials["fab fa-soundcloud"].length >0 ) { %>
                     <input type="text" placeholder="<%= data.socials['fab fa-soundcloud'] %>" name="scurl"><br/>
                 <% } else { %>
-                    <input type="text" placeholder="soundcloud url" name="gear"><br/>
+                    <input type="text" placeholder="soundcloud url" name="scurl"><br/>
                 <% } %>
                 <% if(data.socials && data.socials["fab fa-bandcamp"] && data.socials["fab fa-bandcamp"].length >0 ) { %>
                     <input type="text" placeholder="<%= data.socials['fab fa-bandcamp'] %>" name="bcurl">
                 <% } else { %>
-                    <input type="text" placeholder="bandcamp url" name="gear">
+                    <input type="text" placeholder="bandcamp url" name="bcurl">
                 <% } %>
             </div>
             <i class="fas fa-toolbox ico-pad"></i> <strong>gear</strong>
