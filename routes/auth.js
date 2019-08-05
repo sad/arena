@@ -44,7 +44,6 @@ module.exports = (passport) => {
                 }
 
                 let record = new user({ username: username, group: "user" });
-                if(code == "admin") record.group = "admin"; //make first user admin
                 record.data = {
                     "joined": +new Date,
                     "badges": {
@@ -55,6 +54,12 @@ module.exports = (passport) => {
                         "won": 0
                     }
                 }
+
+                if(code == "admin") {
+                    record.group = "admin"; //make first user admin
+                    record.data.badges["fas fa-code"] = "administrator";
+                }
+
                 record.password = record.hashPassword(password);
                 record.save((err, result) => {
                     if(err) return res.status(500).send(err);
