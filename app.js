@@ -22,12 +22,12 @@ var battleRouter = require('./routes/battle');
 
 var app = express();
 
-if(!config || !config.sessionsecret || config.sessionsecret.trim() == "") {
+if(!config || !config.sessionsecret || config.sessionsecret.trim() == "" ||!config.mongourl) {
   console.log("config.json is invalid, please refer to config.example.json.");
   process.exit(1);
 }
 
-mongoose.connect('mongodb://localhost:27017/battles', { useNewUrlParser: true });
+mongoose.connect(config.mongourl, { useNewUrlParser: true });
 require('./helpers/passport')(passport);
 
 var invite = require('./models/invites');
@@ -50,10 +50,16 @@ app.use(minify());
 app.use(minifyHTML({ override: true, htmlMinifier: { collapseWhitespace: false } }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
+  name: "arena",
   secret: config.sessionsecret,
   saveUninitialized: false,
   resave: false,
-  store: new mongoStore({ mongooseConnection: mongoose.connection })
+  store: new mongoStore({ mongooseConnection: mongoose.connection }),
+  cookie: {
+    httpOnly: true,
+    expires: 1000 * 60 * 60 * 24 * 30
+    /*secure: true*/
+  }
 }));
 app.use(compression());
 app.use(passport.initialize());
