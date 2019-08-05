@@ -1,3 +1,4 @@
 {
-    "sessionsecret": "your-key-here"
+    "sessionsecret": "your-key-here",
+    "mongourl": "mongodb://localhost:27017/battles"
 }

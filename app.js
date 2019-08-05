@@ -22,12 +22,14 @@ var battleRouter = require('./routes/battle');
 
 var app = express();
 
-if(!config || !config.sessionsecret || config.sessionsecret.trim() == "") {
+if(!config || !config.sessionsecret || config.sessionsecret.trim() == "" ||!config.mongourl) {
   console.log("config.json is invalid, please refer to config.example.json.");
   process.exit(1);
 }
 
-mongoose.connect('mongodb://localhost:27017/battles', { useNewUrlParser: true });
+console.log(config.mongourl);
+
+mongoose.connect(config.mongourl, { useNewUrlParser: true });
 require('./helpers/passport')(passport);
 
 var invite = require('./models/invites');
