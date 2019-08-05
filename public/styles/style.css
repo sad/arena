@@ -29,6 +29,7 @@ input:focus {
     font-family: monospace, sans-serif;
     font-size: 14px;
     opacity: .7;
+    width: 50%;
 }
 
 a:visited {
