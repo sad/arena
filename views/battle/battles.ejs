@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ../partials/header.ejs %>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
+      <span class="nav noselect">[ <a href="../">home</a> / <span class='year'>battles</span> / <a href="/profile">profile</a> ]</span>
+    </div>
+    <strong>
+      <i class="fas fa-fan ico-pad"></i> battles
+    </strong>
+    <span class="toolbar nav">
+        <span>
+          <a href="/battles/create"><i class="fas fa-plus"></i></a>
+        </span>
+    </span>
+    <div class="info nospill nav">
+      <span class="noselect"><i class="fas fa-stopwatch"></i> ongoing battles</span>
+      <div class="info">
+        <% Object.keys(ongoing).forEach(function(battle) { %>
+          <article><a href="battles/<%= battle %>"><%= ongoing[battle] %></a></article>
+        <% }); %>
+      </div>
+
+      <span class="noselect"><i class="fas fa-history"></i> past 5 battles</span>
+      <div class="info nospill">
+        none found
+      </div>
+    </div>
+  </body>
+</html>

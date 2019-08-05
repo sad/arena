@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ../partials/header.ejs %>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
+      <span class="nav noselect">[ <a href="../../">home</a> / <a href='../battles'>battles</a> / <a href="/profile">profile</a> ]</span>
+    </div>
+    <strong class="nav">
+      <i class="fas fa-fan ico-pad"></i> operations dashboard
+    </strong>
+    <div class="info nospill nav">
+        <article><i class="fas fa-list ico-pad"></i> <a href="ops/battles">manage battles</a></article>
+        <article><i class="fas fa-ticket-alt ico-pad"></i> <a href="ops/invites">manage invites</a></article>
+        <% if(group == "admin") { %>
+            <article><i class="fas fa-users ico-pad"></i> <a href="ops/users">manage users</a></article>
+            <article><i class="fas fa-cogs ico-pad"></i> <a href="ops/sys">system actions</a></article>
+        <% } %>
+        <br/>
+        <article><i class="fas fa-info-circle ico-pad"></i> <strong>statistics</strong></article>
+        <article>
+            <div class="info">
+                <article>user count: <%= userCount %></article>
+            </div>
+        </article>
+    </div>
+  </body>
+</html>

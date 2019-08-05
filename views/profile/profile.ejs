@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ../partials/header.ejs %>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
+      <span class="nav noselect">[ <a href="../">home</a> / <a href='../battles'>battles</a> / <% if(currentUser == username) { %><span class="year">profile</span><% }else {%><a href="/profile">profile</a><% }%> ]</span>
+    </div>
+    <% if(messages.info) { %>
+      <div class="message noselect">
+        <span id="nav"><i class="fas fa-info-circle ico-pad"></i> <%= messages.info %> </span>
+      </div><br/>
+    <% } %>
+    <strong>
+      <i class="fas fa-fan ico-pad"></i> user profile
+    </strong>
+    <% if(currentUser == username) { %>
+      <!--<span class="nav">[ <a href="/profile/edit/<%=username%>">edit</a> / <a href="/logout">logout</a> ]</span>-->
+      <span class="toolbar nav">
+          <span>
+            <a href="/profile/edit/<%=username%>"><i class="fas fa-edit nohover"></i></a>
+          </span>
+      </span>
+    <% } %>
+    <div class="info nospill nav">
+      <div class="profile-main nospill">
+        <h2><%= username %></h2>
+        <% if(data.socials && Object.keys(data.socials).length > 0) { %>
+        <div class="socials info">
+          <% Object.keys(data.socials).forEach(function(social) { %>
+            <a href="https://<%= data.socials[social] %>" target="_blank"><i class="<%= social %>"></i></a>
+          <% }); %>
+        </div><br/>
+        <% } %>
+
+        <i class="fas fa-user-secret ico-pad"></i> <strong>about</strong>
+        <div class="info">
+            <% if(data.gear && data.gear.trim().length > 0) { %>
+              <article><i class="fas fa-toolbox"></i> gear: <strong><%= data.gear %></strong></article>
+            <% } %>
+          <article><i class="fas fa-asterisk"></i> participated in <strong><a href="<%= username %>/battles"><%= data.battles.participated %> battles</a></strong></article>
+          <article><i class="fas fa-clock"></i> joined <strong><%= joined %></strong></article>
+        </div><br/>
+
+        <i class="fas fa-trophy ico-pad"></i> <strong>badges</strong>
+        <div class="info">
+          <% if(group == 'admin') { %>
+            <article><i class="fas fa-code"></i> administrator</article>
+          <% } %>
+          <% Object.keys(data.badges).forEach(function(badge) { %>
+            <article><i class="<%= badge %>"></i> <%= data.badges[badge] %></article>
+          <% }); %>
+          <!--<article><i class="fas fa-medal"></i> two time battle winner</article>-->
+        </div>
+        <% if(group == 'admin') { %>
+          <br/>
+          <i class="fas fa-cogs ico-pad"></i> <strong>ops</strong>
+          <div class="info">
+            <article>&gt; <a href="../ops">ops dashboard</a></article>
+          </div>
+        <% } %>
+      </div>
+   </div>
+  </body>
+</html>

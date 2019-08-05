@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include partials/header.ejs %>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title noselect">tapes.ws<sup><small class="year">beta</small></sup></span>
+      <span class="nav noselect">[ <a href="../">home</a> / <a href='../c/submit'>submit</a> / <a href="../info">info</a> / <span class="year">arena</span> ]</span>
+    </div>
+
+    <% if(messages.info) { %>
+      <div class="message noselect">
+        <span id="nav"><i class="fas fa-exclamation-triangle ico-pad"></i> <%= messages.info %></span>
+      </div><br/>
+    <% } %>
+
+    <strong>
+      <a href="../">..</a> sign in
+    </strong>
+    <div class="info nospill">
+        <span class="tape">
+                <form class="pad-input" action="/auth/login" method="POST">
+                    <i class="fas fa-user-circle ico-pad"></i> <strong>username</strong>
+                    <div class="info">
+                        <input type="text" placeholder="enter username" name="username" required>
+                    </div>
+                    <i class="fas fa-lock ico-pad"></i> <strong>password</strong>
+                    <div class="info mb-8">
+                      <input type="password" placeholder="enter password" name="password" required>
+                    </div>
+                    <input class="full-vis" type="submit" value="sign in">    
+                </form>
+        </span>
+   </div>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ../partials/header.ejs %>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
+      <span class="nav noselect">[ <a href="../../">home</a> / <a href='../../battles'>battles</a> / <span class="year">profile</span> ]</span>
+    </div>
+    <strong>
+      <a class="nohover" href="../<%= username %>">..</a> edit profile
+    </strong>
+    <div class="info nospill nav">
+      <div class="profile-main nospill">
+        <i class="fas fa-user-circle ico-pad"></i> <strong>credentials</strong>
+        <div class="info">
+            <article>username: <strong><%= username %></strong></article>
+            <article><a href="<%= username %>/password">change password</a></article>
+        </div>
+        <form action="/profile/edit/<%=username %>" method="POST">
+            <i class="fas fa-globe-europe ico-pad"></i> <strong>socials</strong>
+            <div class="info">
+                <% if(data.socials && data.socials["fab fa-soundcloud"] && data.socials["fab fa-soundcloud"].length >0 ) { %>
+                    <input type="text" placeholder="<%= data.socials['fab fa-soundcloud'] %>" name="scurl"><br/>
+                <% } else { %>
+                    <input type="text" placeholder="soundcloud url" name="gear"><br/>
+                <% } %>
+                <% if(data.socials && data.socials["fab fa-bandcamp"] && data.socials["fab fa-bandcamp"].length >0 ) { %>
+                    <input type="text" placeholder="<%= data.socials['fab fa-bandcamp'] %>" name="bcurl">
+                <% } else { %>
+                    <input type="text" placeholder="bandcamp url" name="gear">
+                <% } %>
+            </div>
+            <i class="fas fa-toolbox ico-pad"></i> <strong>gear</strong>
+            <div class="info mb-8">
+                <% if(data.gear && data.gear.trim().length > 0) { %>
+                    <input type="text" placeholder="<%= data.gear %>" name="gear">
+                <% } else { %>
+                    <input type="text" placeholder="enter your gear here" name="gear">
+                <% } %>
+            </div>
+            <input class="full-vis" type="submit" value="save">
+        </form>
+      </div>
+   </div>
+  </body>
+</html>
