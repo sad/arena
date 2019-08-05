@@ -44,7 +44,7 @@ module.exports = (passport) => {
                 }
 
                 let record = new user({ username: username, group: "user" });
-                if(code == "initial") record.group = "admin"; //make first user admin
+                if(code == "admin") record.group = "admin"; //make first user admin
                 record.data = {
                     "joined": new Date().toString(),
                     "badges": {
