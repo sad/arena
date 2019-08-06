@@ -12,7 +12,7 @@ let isAuthed = (req, res, next) => {
 router.get('/', function(req, res, next) {
   if(!req.isAuthenticated()) return res.render('index', { title: 'lol' });
   bulletin.findOne({}, {}, {sort: { 'created_at': -1 }}, (err, doc) => {
-    let date = doc ? new moment(doc.time.toISOString()).format("Do MMM YYYY").toLowerCase() : "n/a",
+    let date = doc ? new moment(doc.time).format("Do MMM YYYY").toLowerCase() : "n/a",
         announce = bulletin.find().sort({ _id: -1 }).limit(1);
 
     announce.findOne({}, (err, doc) => {

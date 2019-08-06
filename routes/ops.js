@@ -37,7 +37,7 @@ router.get('/sys', isAuthed, (req, res, next) => {
 
 router.post('/sys/bulletin', isAuthed, (req, res, next) => {
     if(req.body.message) {
-        let announce = new bulletin({ message: req.body.message, time: new Date() });
+        let announce = new bulletin({ message: req.body.message, time: +new Date() });
         announce.save((err, result) => {
             if(err) req.flash(err);
             else console.log(result);
