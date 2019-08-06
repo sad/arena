@@ -1,0 +1,21 @@
+{
+    "can_create_battles": "create battles",
+    "can_view_battles": "view battles",
+    "can_participate_battles": "participate in battles",
+    "can_suggest_rules": "submit suggestions",
+    "can_view_profiles": "view user profiles",
+    "can_edit_profile": "edit own profile",
+    "can_view_ops": "view ops dashboard",
+    "can_view_ops_stats": "view stats inside ops",
+    "can_change_bulletin": "edit bulletin",
+    "can_view_ops_sys": "manage system",
+    "can_view_ops_battles": "manage battles",
+    "can_view_ops_invites": "manage invites",
+    "can_view_ops_users": "manage users",
+    "can_set_group": "set user group",
+    "can_manage_badges": "manage badges",
+    "can_create_invites": "create invites",
+    "can_create_invites_infinite": "create infinite invites",
+    "can_delete_invites_own": "delete own invites",
+    "can_delete_invites_all": "delete invites globally"
+}

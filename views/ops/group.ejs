@@ -24,9 +24,9 @@
       <i class="fas fa-user-edit ico-pad"></i> <strong>permissions</strong>
       <div class="info">
         <form method="POST">
-            <% permNodes.forEach(perm => { 
+            <% Object.keys(permNodes).forEach(perm => { 
                var checkedValue = group.permissions.includes('*') ? 'checked disabled' : group.permissions.includes(perm) ? 'checked' : '' %>
-              <input type="checkbox" name="<%= perm %>" value="1" <%- checkedValue %> /><%= perm %> <br />
+              <input type="checkbox" name="<%= perm %>" value="1" <%- checkedValue %> /><%= permNodes[perm] %> <br />
             <% }); %>
         <br/>
         <input class="full-vis width-initial" type="submit" value="apply">
