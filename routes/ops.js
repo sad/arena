@@ -7,7 +7,7 @@ var groups = require('../models/group');
 var bulletin = require('../models/bulletin');
 
 let isAuthed = (req, res, next) => {
-    if(req.isAuthenticated() && req.user.group == "admin") return next();
+    if(req.isAuthenticated()) return next();
     return res.redirect("/profile")
 }
 
@@ -107,6 +107,7 @@ router.get('/users', isAuthed, (req, res, next) => {
     });
 });
 
+
 router.get('/users/:user', isAuthed, (req, res, next) => {
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.send("lol");
@@ -176,6 +177,50 @@ router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
             });
         });
     });
+});
+
+// groups
+
+router.get('/groups', isAuthed, (req, res, next) => {
+    groups.find({}, (err, doc) => {
+        res.render('ops/groups', {
+            groups: doc
+        });
+    });
+});
+
+router.get('/groups/:group', isAuthed, (req, res, next) => {
+    groups.findOne({name: req.params.group}, (err, doc) => {
+        if(!doc || err) return res.redirect('back');
+        res.render('ops/group', {
+            group: doc,
+            permNodes: ["can_suggest_rules","can_view_battles","can_participate_battles","can_edit_profile","can_view_profiles",
+            "can_create_battles","can_view_ops","can_view_ops_battles","can_view_ops_invites","can_view_ops_users",
+            "can_view_ops_sys","can_view_ops_stats","can_create_invites","can_manage_badges","can_set_group",
+            "can_delete_invites_own","can_delete_invites_all","can_create_invites_infinite","can_change_bulletin"] // tba: probably move this to the config or db
+        });
+    });
+});
+
+router.post('/groups/:group', isAuthed, (req, res, next) => {
+     let allPermNodes = ["can_suggest_rules","can_view_battles","can_participate_battles","can_edit_profile","can_view_profiles",
+     "can_create_battles","can_view_ops","can_view_ops_battles","can_view_ops_invites","can_view_ops_users",
+     "can_view_ops_sys","can_view_ops_stats","can_create_invites","can_manage_badges","can_set_group",  // need to put this somewhere in a config on god
+     "can_delete_invites_own","can_delete_invites_all","can_create_invites_infinite","can_change_bulletin"], permNodes = Object.keys(req.body).filter(a => allPermNodes.includes(a));
+    // console.log(permNodes);
+     groups.findOne({name: req.params.group}, (err, group) => {
+        if(!group || err) return res.redirect('back');
+        if(group.permissions.includes("*"))  {
+            req.flash('info', 'cannot edit permissions of groups who have a wildcard permission set'); // might change this later or not idk
+            return res.redirect('back');
+        }
+
+            groups.updateOne({name: req.params.group}, {$set: { permissions: permNodes }}, (err, doc) => {
+                if(err) req.flash('info', 'error changing group permsisions');
+                return res.redirect('back');
+            });
+        
+    }); 
 });
 
 module.exports = router;

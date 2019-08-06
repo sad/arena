@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ../partials/header.ejs %>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
+      <span class="nav noselect">[ <a href="../../">home</a> / <a href='../battles'>battles</a> / <a href="/profile">profile</a> ]</span>
+    </div>
+    <% if(messages.info) { %>
+      <div class="message noselect">
+        <span id="nav"><i class="fas fa-info-circle ico-pad"></i> <%= messages.info %> </span>
+      </div><br/>
+    <% } %>
+    <strong class="nav">
+      <a href="..">..</a>
+    </strong>
+    <div class="info nospill nav">
+      <i class="fas fa-user-circle ico-pad"></i> <strong>overview</strong>
+      <div class="info">
+        <article>group name: <strong><%= group.name %></strong></article>
+      </div><br/>
+      <i class="fas fa-user-edit ico-pad"></i> <strong>permissions</strong>
+      <div class="info">
+        <form method="POST">
+          
+            <% permNodes.forEach(perm => { 
+               var checkedValue = group.permissions.includes('*') ? 'checked disabled' : group.permissions.includes(perm) ? 'checked' : '' %>
+              <input type="checkbox" name="<%= perm %>" value="1" <%- checkedValue %> /><%= perm %> <br />
+            <% }); %>
+        <br/>
+        <input class="full-vis width-initial" type="submit" value="apply">
+        </form>
+    </div>
+  </body>
+</html>

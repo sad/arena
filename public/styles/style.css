@@ -32,6 +32,10 @@ input:focus {
     width: 50%;
 }
 
+input[type="checkbox"] {
+    width: initial
+}
+
 a:visited {
     color: #e26ad8;
     text-decoration: none;
