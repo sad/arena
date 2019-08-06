@@ -113,6 +113,15 @@ router.get('/users/:user', isAuthed, (req, res, next) => {
     });
 });
 
+router.get('/users/:user/badges', isAuthed, (req, res, next) => {
+    users.findOne({username: req.params.user}, (err, user) => {
+        if(!user || err) return res.send("lol");
+        return res.render('ops/badges', {
+            user: user,
+        });
+    });
+});
+
 router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
     let group = req.body.group;
     users.findOne({username: req.params.user}, (err, user) => {
