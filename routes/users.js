@@ -24,10 +24,11 @@ router.get('/profile/:user', isAuthed, (req, res, next) => {
       return res.render('profile/profile', {
         title: `${req.params.user} | arena.tapes.ws`,
         currentUser: req.user.username,
+        currentGroup: req.user.group,
         username: doc.username,
         group: doc.group,
         joined: joined,
-        data: doc.data
+        data: doc.data,
       });
 
     });

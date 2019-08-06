@@ -35,7 +35,7 @@
         <form action="<%= user.username %>/setgroup" method="POST">
           <select class="mb-4" name="group">
             <% groups.forEach(group => { %>
-              <option value="<%= group.name %>"><%= group %></option>
+              <option value="<%= group %>"><%= group %></option>
             <% }); %>
         </select> <br/>
         <input class="full-vis width-initial" type="submit" value="apply">

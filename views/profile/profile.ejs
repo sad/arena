@@ -25,7 +25,11 @@
     <% } %>
     <div class="info nospill nav">
       <div class="profile-main nospill">
-        <h2><%= username %></h2>
+        <% if(group == 'banned') { %>
+          <h2><strike><%= username %></strike></h2>
+        <% }else { %>
+          <h2><%= username %></h2>
+        <% } %>
         <% if(data.socials && Object.keys(data.socials).length > 0) { %>
         <div class="socials info">
           <% Object.keys(data.socials).forEach(function(social) { %>
@@ -36,6 +40,9 @@
 
         <i class="fas fa-user-secret ico-pad"></i> <strong>about</strong>
         <div class="info">
+            <% if(group == 'banned') { %>
+              <article><i class="fas fa-ban"></i> <strong>this user has been banned</strong></article>
+            <% } %>
             <% if(data.gear && data.gear.trim().length > 0) { %>
               <article><i class="fas fa-toolbox"></i> gear: <strong><%= data.gear %></strong></article>
             <% } %>
@@ -52,7 +59,7 @@
             <article><i class="<%= badge %>"></i> <%= data.badges[badge] %></article>
           <% }); %>
         </div>
-        <% if(group == 'admin') { %>
+        <% if(currentGroup == 'admin') { %>
           <br/>
           <i class="fas fa-cogs ico-pad"></i> <strong>ops</strong>
           <div class="info">
