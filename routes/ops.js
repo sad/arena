@@ -139,7 +139,7 @@ router.get('/users/:user/removebadge/:badge', isAuthed, (req, res, next) => {
         if(user.data.badges[unescape(req.params.badge)] != undefined) {
             user.set(`data.badges.${unescape(req.params.badge)}`, undefined, { strict: false });
             user.save((err, doc) => {
-                if(err) res.flash('info', 'could not remove this badge');
+                if(err) req.flash('info', 'could not remove this badge');
                 return res.redirect('back');
             })
         }
@@ -152,7 +152,7 @@ router.post('/users/:user/addbadge/', isAuthed, (req, res, next) => {
         if(!req.body || !req.body.ico || !req.body.val) return res.redirect('back');
         user.set(`data.badges.${req.body.ico}`, req.body.val);
         user.save((err, doc) => {
-            if(err) res.flash('info', 'could not add this badge');
+            if(err) req.flash('info', 'could not add this badge');
             return res.redirect('back');
         });
     });
