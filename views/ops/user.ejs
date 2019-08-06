@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ../partials/header.ejs %>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
+      <span class="nav noselect">[ <a href="../../">home</a> / <a href='../battles'>battles</a> / <a href="/profile">profile</a> ]</span>
+    </div>
+    <strong class="nav">
+      <a href="..">..</a> user: <%= user.username %>
+    </strong>
+    <div class="info nospill nav">
+      <i class="fas fa-user-circle ico-pad"></i> <strong>credentials</strong>
+      <div class="info">
+        <article>user group: <strong><%= user.group %></strong></article>
+      </div>
+      <i class="fas fa-trophy ico-pad"></i> <strong>badges</strong>
+      <div class="info">
+        <% Object.keys(user.data.badges).forEach(function(badge) { %>
+          <article><i class="<%= badge %>"></i> <%= user.data.badges[badge] %></article>
+        <% }); %>
+        <article>&gt; <a href="<%= user.username%>/badges">manage badges</a></article>
+      </div>
+    </div>
+  </body>
+</html>

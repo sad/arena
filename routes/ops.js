@@ -92,10 +92,20 @@ router.get('/invites/infinite/:code', isAuthed, (req, res, next) => {
     });
 });
 
+// users
 router.get('/users', isAuthed, (req, res, next) => {
     users.find({}, (err, doc) => {
         res.render('ops/users', {
             users: doc
+        });
+    });
+});
+
+router.get('/users/:user', isAuthed, (req, res, next) => {
+    users.findOne({username: req.params.user}, (err, doc) => {
+        if(!doc || err) return res.send("lol");
+        return res.render('ops/user', {
+            user: doc
         });
     });
 });
