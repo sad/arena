@@ -18,6 +18,7 @@ router.get('/', function(req, res, next) {
     announce.findOne({}, (err, doc) => {
       return res.render('index-authed', {
         username: req.user.username,
+        group: req.user.group,
         bulletin: doc ? doc : "no bulletin set",
         date: date
       });

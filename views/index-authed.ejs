@@ -21,6 +21,9 @@
       <div class="info">
         <article><span>&gt; <a href="/suggest">suggest rules or samples</a></span></article>
         <article><span>&gt; <a href="https://tapes.ws">return to tapes.ws</a></span></article>
+        <% if(group == 'admin') { %>
+          <article><span>&gt; <a href="/ops">view ops dashboard</a></span></article>
+        <% } %>
         <article><span>&gt; <a href="/logout">log out</a></span></article>
       </div>
     </div>
