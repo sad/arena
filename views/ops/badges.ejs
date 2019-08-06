@@ -14,7 +14,7 @@
       </div><br/>
     <% } %>
     <strong class="nav">
-      <a href="..">..</a> <%= user.username %>'s badges
+      <a href="../<%= user.username %>">..</a> <%= user.username %>'s badges
     </strong>
     <div class="info nospill nav">
         <% Object.keys(user.data.badges).forEach(function(badge) { %>
