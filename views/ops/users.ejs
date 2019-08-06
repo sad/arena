@@ -16,7 +16,7 @@
       <div class="info">
             <% for(let i = 0; i < users.length; i++) { %>
                 <article>
-                    <a href="/profile/<%= users[i].username %>" target="_blank"><%= users[i].username %></a> <% if(users[i].group == 'admin') { %> <%- '<i class="fas fa-code"></i>' %> <% } %> <%- Object.keys(users[i].data.badges).map(badge => `<i class="${badge}"></i>`).join(" ") %>
+                    <a href="/profile/<%= users[i].username %>" target="_blank"><%= users[i].username %></a> <%- Object.keys(users[i].data.badges).map(badge => `<i class="${badge}"></i>`).join(" ") %>
                 </article>
               <% } %>
       </div>
