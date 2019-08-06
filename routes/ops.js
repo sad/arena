@@ -102,10 +102,13 @@ router.get('/users', isAuthed, (req, res, next) => {
 });
 
 router.get('/users/:user', isAuthed, (req, res, next) => {
-    users.findOne({username: req.params.user}, (err, doc) => {
-        if(!doc || err) return res.send("lol");
-        return res.render('ops/user', {
-            user: doc
+    users.findOne({username: req.params.user}, (err, user) => {
+        if(!user || err) return res.send("lol");
+        invites.findOne({usedBy: req.params.user}, (err, invite) => {
+            return res.render('ops/user', {
+                user: user,
+                invite: invite
+            });
         });
     });
 });

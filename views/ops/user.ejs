@@ -12,9 +12,11 @@
       <a href="..">..</a> user: <%= user.username %>
     </strong>
     <div class="info nospill nav">
-      <i class="fas fa-user-circle ico-pad"></i> <strong>credentials</strong>
+      <i class="fas fa-user-circle ico-pad"></i> <strong>overview</strong>
       <div class="info">
         <article>user group: <strong><%= user.group %></strong></article>
+        <article>invite code: <strong><%= invite.code %></strong></article>
+        <article>&gt; <a href="/profile/<%= user.username %>">view user profile</a></article>
       </div>
       <i class="fas fa-trophy ico-pad"></i> <strong>badges</strong>
       <div class="info">
