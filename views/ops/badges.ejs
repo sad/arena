@@ -8,6 +8,11 @@
       <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
       <span class="nav noselect">[ <a href="../../">home</a> / <a href='../battles'>battles</a> / <a href="/profile">profile</a> ]</span>
     </div>
+    <% if(messages.info) { %>
+      <div class="message noselect">
+        <span id="nav"><i class="fas fa-info-circle ico-pad"></i> <%= messages.info %> </span>
+      </div><br/>
+    <% } %>
     <strong class="nav">
       <a href="..">..</a> <%= user.username %>'s badges
     </strong>
@@ -15,15 +20,19 @@
         <% Object.keys(user.data.badges).forEach(function(badge) { %>
           <article>
               <i class="<%= badge %>"></i> <%= user.data.badges[badge] %> 
-              <a class="year" href="remove/<%= encodeURI(badge) %>">(x)</a>
+              <a class="year" href="removebadge/<%= encodeURI(badge) %>">(x)</a>
         </article>
         <% }); %>
         <br />
-        <i class="fas fa-edit ico-pad"></i> <strong>add badge</strong>
+        <i class="fas fa-edit ico-pad"></i> <strong>add badge</strong> <span class="preview"><i id="ico-preview" class="year"></i></span>
         <div class="info">
-            todo
+            <form action="addbadge" method="POST">
+              <input name="ico" id="preview" type="text" placeholder="badge icon (fas fa-xyz)" required>
+              <input name="val" type="text" placeholder="badge label" required> <br/>
+              <input type="submit" value="add" class="width-initial">
+            </form>
         </div>
     </div>
-
+    <script src="../../../js/badge-preview.js"></script>
   </body>
 </html>

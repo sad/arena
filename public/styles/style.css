@@ -295,8 +295,8 @@ h2 {
     margin-bottom: 8px;
 }
 
-.width-20 {
-    width: 20%;
+.width-initial {
+    width: initial;
 }
 
 .full-vis {
