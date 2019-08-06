@@ -103,6 +103,11 @@ a #track:hover,
 
 select {
     font-family: monospace;
+    font-size: 14px;
+}
+
+.no-border {
+    border: none;
 }
 
 s {
@@ -293,6 +298,10 @@ h2 {
 
 .mb-8 {
     margin-bottom: 8px;
+}
+
+.mb-4 {
+    margin-bottom: 4px;
 }
 
 .width-initial {
