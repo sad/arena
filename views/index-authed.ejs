@@ -14,6 +14,9 @@
     <div class="info nospill nav">
       <article><i class="fas fa-user-circle ico-pad"></i> <strong>welcome back, <%= username %>.</strong></article>
       <span><i class="fas fa-bullhorn ico-pad"></i> bulletin (<%= date %>)</span>
+      <% if(group == 'admin') { %>
+        <a href="ops/sys"><i class="fas fa-edit"></i></a>
+      <% } %>
       <div class="info">
         <%= bulletin.message %>
       </div><br/>
