@@ -33,6 +33,10 @@ router.get('/sign-up', function(req, res, next) {
   res.render('signup', { title: 'Express' });
 });
 
+router.get('/suggest', isAuthed, (req, res, next) => {
+  res.render('suggestions/create');
+});
+
 router.get('/logout', isAuthed, (req, res, next) => {
   req.logout();
   res.redirect('/');
