@@ -8,6 +8,11 @@
       <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
       <span class="nav noselect">[ <a href="../../">home</a> / <a href='../battles'>battles</a> / <a href="/profile">profile</a> ]</span>
     </div>
+    <% if(messages.info) { %>
+      <div class="message noselect">
+        <span id="nav"><i class="fas fa-info-circle ico-pad"></i> <%= messages.info %> </span>
+      </div><br/>
+    <% } %>
     <strong class="nav">
       <a href="..">..</a> user: <%= user.username %>
     </strong>
@@ -29,9 +34,9 @@
       <div class="info">
         <form action="<%= user.username %>/setgroup" method="POST">
           <select class="mb-4" name="group">
-            <option value="user">user</option>
-            <!--<option value="mod">moderator</option>-->
-            <option value="admin">admin</option>
+            <% groups.forEach(group => { %>
+              <option value="<%= group.name %>"><%= group %></option>
+            <% }); %>
         </select> <br/>
         <input class="full-vis width-initial" type="submit" value="apply">
         </form>

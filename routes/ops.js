@@ -3,6 +3,7 @@ var router = express.Router();
 var invites = require('../models/invites');
 var helper = require('../helpers/ops');
 var users = require('../models/user');
+var groups = require('../models/group');
 var bulletin = require('../models/bulletin');
 
 let isAuthed = (req, res, next) => {
@@ -110,9 +111,14 @@ router.get('/users/:user', isAuthed, (req, res, next) => {
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.send("lol");
         invites.findOne({usedBy: req.params.user}, (err, invite) => {
-            return res.render('ops/user', {
-                user: user,
-                invite: invite
+            groups.find({}, (err, groups) => {
+                let availableGroups = [];
+                groups.forEach(group => { if(group.name != user.group) availableGroups.push(group.name); });
+                return res.render('ops/user', {
+                    user: user,
+                    invite: invite,
+                    groups: availableGroups
+                });
             });
         });
     });
@@ -156,10 +162,18 @@ router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
     let group = req.body.group;
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.redirect('back');
-        if(!["user", "mod", "admin", "banned"].includes(group)) return res.redirect('back');
-        users.updateOne({username: req.params.user}, {$set: { group: group }}, (err, doc) => {
-            if(err) console.log(err);
+        if(user.username == req.user.username) {
+            res.flash('info', 'cannot change your own group.');
             return res.redirect('back');
+        }
+
+        groups.find({}, (err, groups) => {
+            if(err) return res.redirect('back');
+            if(!groups.map(g => g.name).includes(group)) return res.redirect('back');
+            users.updateOne({username: req.params.user}, {$set: { group: group }}, (err, doc) => {
+                if(err) res.flash('info', 'error changing group');
+                return res.redirect('back');
+            });
         });
     });
 });
