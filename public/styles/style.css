@@ -33,7 +33,8 @@ input:focus {
 }
 
 input[type="checkbox"] {
-    width: initial
+    width: initial;
+    opacity: 1;
 }
 
 a:visited {

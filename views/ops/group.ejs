@@ -14,17 +14,16 @@
       </div><br/>
     <% } %>
     <strong class="nav">
-      <a href="..">..</a>
+      <a href="..">..</a> edit group: <%= group.name %>
     </strong>
     <div class="info nospill nav">
-      <i class="fas fa-user-circle ico-pad"></i> <strong>overview</strong>
+      <!--<i class="fas fa-user-circle ico-pad"></i> <strong>overview</strong>
       <div class="info">
         <article>group name: <strong><%= group.name %></strong></article>
-      </div><br/>
+      </div><br/>-->
       <i class="fas fa-user-edit ico-pad"></i> <strong>permissions</strong>
       <div class="info">
         <form method="POST">
-          
             <% permNodes.forEach(perm => { 
                var checkedValue = group.permissions.includes('*') ? 'checked disabled' : group.permissions.includes(perm) ? 'checked' : '' %>
               <input type="checkbox" name="<%= perm %>" value="1" <%- checkedValue %> /><%= perm %> <br />

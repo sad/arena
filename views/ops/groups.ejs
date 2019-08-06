@@ -9,16 +9,16 @@
       <span class="nav noselect">[ <a href="../../">home</a> / <a href='../battles'>battles</a> / <a href="/profile">profile</a> ]</span>
     </div>
     <strong class="nav">
-      <i class="fas fa-fan ico-pad"></i> system actions
+      <a href="..">..</a> manage groups
     </strong>
     <div class="info nospill nav">
       <i class="fas fa-user ico-pad"></i> <strong>groups</strong>
       <div class="info">
             <% for(let i = 0; i < groups.length; i++) { %>
-                <article>
-                    <a href="groups/<%= groups[i].name %>"><%= groups[i].name %></a>
-                </article>
-              <% } %>
+              <article>
+                  <a href="groups/<%= groups[i].name %>"><%= groups[i].name %></a>
+              </article>
+            <% } %>
       </div>
     </div>
   </body>
