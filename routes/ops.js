@@ -13,9 +13,13 @@ let isAuthed = (req, res, next) => {
 // home
 router.get('/', isAuthed, (req, res, next) => {
     users.find({}, (err, doc) => {
-        res.render('ops/dashboard', {
-            userCount: doc.length,
-            group: req.user.group //todo: moderator actions
+        require('child_process').exec('git show -s --format="%h|%B"', (err, stdout) => {
+            let commit = err ? "" : stdout;
+            res.render('ops/dashboard', {
+                userCount: doc.length,
+                group: req.user.group,
+                commit: commit
+            });
         });
     });
 });

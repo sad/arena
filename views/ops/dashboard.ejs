@@ -22,7 +22,15 @@
         <article><i class="fas fa-info-circle ico-pad"></i> <strong>statistics</strong></article>
         <article>
             <div class="info">
-                <article>user count: <%= userCount %></article>
+                <article><strong>user count</strong>: <%= userCount %></article>
+                <% if(commit.trim() != "") { %>
+                  <article>
+                    <strong>latest commit <span class="year">(<%= commit.split('|')[0] %>)</span></strong>:
+                  </article>
+                  <div class="info">
+                    <article><%= commit.split('|')[1] %></article>
+                  </div>
+                <% } %>
             </div>
         </article>
     </div>
