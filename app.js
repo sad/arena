@@ -1,26 +1,28 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require('mongoose');
-var session = require('express-session');
-var passport = require('passport');
-var flash = require('express-flash');
-var mongoStore = require('connect-mongo')(session);
-var helmet = require('helmet');
-var minify = require('express-minify');
-var minifyHTML = require('express-minify-html');
-var compression = require('compression');
-var config = require('./config.json');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const passport = require('passport');
+const flash = require('express-flash');
+const mongoStore = require('connect-mongo')(session);
+const helmet = require('helmet');
+const minify = require('express-minify');
+const minifyHTML = require('express-minify-html');
+const compression = require('compression');
+const config = require('./config.json');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var authRouter = require('./routes/auth')(passport);
-var opsRouter = require('./routes/ops');
-var battleRouter = require('./routes/battle');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth')(passport);
+const opsRouter = require('./routes/ops');
+const battleRouter = require('./routes/battle');
 
-var app = express();
+const invite = require('./models/invites');
+
+const app = express();
 
 if(!config || !config.sessionsecret || config.sessionsecret.trim() == "" ||!config.mongourl) {
   console.log("config.json is invalid, please refer to config.example.json.");
@@ -29,8 +31,6 @@ if(!config || !config.sessionsecret || config.sessionsecret.trim() == "" ||!conf
 
 mongoose.connect(config.mongourl, { useNewUrlParser: true });
 require('./helpers/passport')(passport);
-
-var invite = require('./models/invites');
 
 //create initial invite valid for one use (first user)
 invite.findOne({code: "admin"}, (err, doc) => {
@@ -41,6 +41,7 @@ invite.findOne({code: "admin"}, (err, doc) => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// middleware
 app.use(logger('dev'));
 app.use(helmet());
 app.use(express.json());
@@ -66,6 +67,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+// routes
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/auth', authRouter);
@@ -73,12 +75,12 @@ app.use('/ops', opsRouter);
 app.use('/battles', battleRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
