@@ -22,14 +22,14 @@
         <article>user group: <strong><%= user.group %></strong></article>
         <article>invite code: <strong><%= invite ? invite.code : '(n/a)' %></strong></article>
         <article>&gt; <a href="/profile/<%= user.username %>">view user profile</a></article>
-      </div>
+      </div><br/>
       <i class="fas fa-trophy ico-pad"></i> <strong>badges</strong>
       <div class="info">
         <% Object.keys(user.data.badges).forEach(function(badge) { %>
           <article><i class="<%= badge %>"></i> <%= user.data.badges[badge] %></article>
         <% }); %>
         <article>&gt; <a href="<%= user.username%>/badges">manage badges</a></article>
-      </div>
+      </div><br/>
       <i class="fas fa-address-card ico-pad"></i> <strong>set group</strong>
       <div class="info">
         <form action="<%= user.username %>/setgroup" method="POST">
