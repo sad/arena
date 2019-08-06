@@ -163,7 +163,7 @@ router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.redirect('back');
         if(user.username == req.user.username) {
-            res.flash('info', 'cannot change your own group.');
+            req.flash('info', 'cannot change your own group.');
             return res.redirect('back');
         }
 
@@ -171,7 +171,7 @@ router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
             if(err) return res.redirect('back');
             if(!groups.map(g => g.name).includes(group)) return res.redirect('back');
             users.updateOne({username: req.params.user}, {$set: { group: group }}, (err, doc) => {
-                if(err) res.flash('info', 'error changing group');
+                if(err) req.flash('info', 'error changing group');
                 return res.redirect('back');
             });
         });
