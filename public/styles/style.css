@@ -93,12 +93,16 @@ a #track:hover,
     font-style: oblique;
 }
 
-select {
+/*select {
     font-family: 'Font Awesome 5 Free';
     border: none;
     font-weight: 900;
     background-color: inherit;
     opacity: .9;
+}*/
+
+select {
+    font-family: monospace;
 }
 
 s {
@@ -289,6 +293,10 @@ h2 {
 
 .mb-8 {
     margin-bottom: 8px;
+}
+
+.width-20 {
+    width: 20%;
 }
 
 .full-vis {

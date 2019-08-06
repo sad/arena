@@ -37,7 +37,7 @@ router.get('/profile/edit/:user', isAuthed, (req, res, next) => {
       title: `${req.params.user} | arena.tapes.ws`,
       currentUser: req.user.username,
       username: doc.username,
-      group: doc.group,
+      group: req.session.group,
       joined: joined,
       data: doc.data
     });

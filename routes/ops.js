@@ -113,5 +113,16 @@ router.get('/users/:user', isAuthed, (req, res, next) => {
     });
 });
 
+router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
+    let group = req.body.group;
+    users.findOne({username: req.params.user}, (err, user) => {
+        if(!user || err) return res.redirect('back');
+        if(!["user", "mod", "admin"].includes(group)) return res.redirect('back');
+        users.updateOne({username: req.params.user}, {$set: { group: group }}, (err, doc) => {
+            if(err) console.log(err);
+            return res.redirect('back');
+        });
+    });
+});
 
 module.exports = router;
