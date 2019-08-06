@@ -17,13 +17,19 @@ router.get('/profile/:user', isAuthed, (req, res, next) => {
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
-    return res.render('profile/profile', {
-      title: `${req.params.user} | arena.tapes.ws`,
-      currentUser: req.user.username,
-      username: doc.username,
-      group: doc.group,
-      joined: joined,
-      data: doc.data
+    
+    doc.hasPermission(req.session.passport.user, 'can_view_profiles').then(hasPermission => {
+      if(!hasPermission) return res.redirect('back');
+
+      return res.render('profile/profile', {
+        title: `${req.params.user} | arena.tapes.ws`,
+        currentUser: req.user.username,
+        username: doc.username,
+        group: doc.group,
+        joined: joined,
+        data: doc.data
+      });
+
     });
   });
 });
