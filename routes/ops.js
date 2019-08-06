@@ -7,7 +7,7 @@ var groups = require('../models/group');
 var bulletin = require('../models/bulletin');
 
 let isAuthed = (req, res, next) => {
-    if(req.isAuthenticated()) return next();
+    if(req.isAuthenticated() && req.user.group == "admin") return next();
     return res.redirect("/profile")
 }
 
