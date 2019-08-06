@@ -18,7 +18,8 @@ router.get('/', isAuthed, (req, res, next) => {
             res.render('ops/dashboard', {
                 userCount: doc.length,
                 group: req.user.group,
-                commit: commit
+                commit: commit,
+                uptime: helper.toHHMMSS(process.uptime())
             });
         });
     });
