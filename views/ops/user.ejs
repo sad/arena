@@ -15,7 +15,7 @@
       <i class="fas fa-user-circle ico-pad"></i> <strong>overview</strong>
       <div class="info">
         <article>user group: <strong><%= user.group %></strong></article>
-        <article>invite code: <strong><%= invite.code %></strong></article>
+        <article>invite code: <strong><%= invite ? invite.code : '(n/a)' %></strong></article>
         <article>&gt; <a href="/profile/<%= user.username %>">view user profile</a></article>
       </div>
       <i class="fas fa-trophy ico-pad"></i> <strong>badges</strong>
