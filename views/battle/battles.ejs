@@ -8,11 +8,13 @@
     <strong>
       <i class="fas fa-fan ico-pad"></i> battles
     </strong>
-    <span class="toolbar nav">
-        <span>
-          <a href="/battles/create"><i class="fas fa-plus"></i></a>
-        </span>
-    </span>
+    <% if(permissions.includes('can_create_battles') || permissions.includes('*')) { %>
+      <span class="toolbar nav">
+          <span>
+            <a href="/battles/create"><i class="fas fa-plus"></i></a>
+          </span>
+      </span>
+    <% } %>
     <div class="info nospill nav">
       <span class="noselect"><i class="fas fa-stopwatch"></i> ongoing battles</span>
       <div class="info">

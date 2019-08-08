@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let battle = require('../models/battle');
+let group = require('../models/group');
 let isAuthed = require('../helpers/isauthed');
 
 router.get('/createsample', (req, res, next) => {
@@ -51,16 +52,19 @@ router.post('/create', isAuthed('can_create_battles'), (req, res, next) => {
 
 router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
     battle.find({}, (err, doc) => {
-        if(err) console.log(err);
         if(doc) {
             let ongoing = {}, finished = {};
             doc.forEach((battle) => {
                 ongoing[battle.id] = battle.name
             });
-
-            res.render('battle/battles', {
-                ongoing: ongoing
-            });
+            group.findOne({ name: req.user.group }, (err, group) => {
+                if(!group) return res.redirect('back');
+                res.render('battle/battles', {
+                    ongoing: ongoing,
+                    permissions: group.permissions
+                });
+            })
+            
         }
     });
 });
