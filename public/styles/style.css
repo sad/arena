@@ -167,6 +167,10 @@ button {
     font-family: monospace
 }
 
+input[type="button"]:focus, input[type="submit"] {
+    width: initial;
+}
+
 .splitter {
     border-style: ridge;
     margin-bottom: 2vh;
