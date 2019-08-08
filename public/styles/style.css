@@ -158,7 +158,9 @@ s {
 textarea {
     width: 100%;
     height: 10vh;
-    opacity: .9;
+    opacity: 1;
+    font-size: 14px;
+    border-color: grey;
 }
 
 button {

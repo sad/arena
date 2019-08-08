@@ -9,7 +9,41 @@
       <a class="nohover" href="../">..</a> create new battle
     </strong>
     <div class="info nospill nav">
-        lol
+        <span class="tape">
+                <form class="pad-input" action="/auth/signup" method="POST">
+                    <i class="fas fa-info-circle ico-pad"></i> <strong>name</strong>
+                    <div class="info">
+                        <input type="text" placeholder="short description" name="name" minlength="5" required>
+                    </div>
+                    <i class="fas fa-edit ico-pad"></i> <strong>description</strong>
+                    <div class="info">
+                      <textarea placeholder="" name="desc" minlength="10" required style="width: 64%; height: 100%; /*lol*/"></textarea>
+                    </div>
+                    <i class="fas fa-book ico-pad"></i> <strong>ruleset</strong> 
+                    <span class="toolbar nav">
+                      <span>
+                          <a href="#"><i class="fas fa-plus" id="rule-add"></i></a><a href="#"></a><a href="#"><i class="fas fa-minus" id="rule-remove"></i></a>
+                      </span>
+                    </span>
+                    <div class="info">
+                      <input type="text" placeholder="rule 1" name="code" required>
+                      <input type="text" placeholder="rule 2" name="code" required>
+                    </div>
+                    <i class="fas fa-clock ico-pad"></i><sup>s</sup> <strong>start date/time</strong>
+                    <div class="info mb-8">
+                      <input type="datetime-local">
+                    </div>
+                    <i class="fas fa-clock ico-pad"></i><sup>e</sup> <strong>expiry date/time</strong>
+                    <div class="info">
+                      <input type="datetime-local">
+                    </div>
+                    <i class="fas fa-wrench"></i> options
+                    <div class="info mb-8">
+                      <input type="checkbox" name="blindvote"> blind vote
+                    </div>
+                    <input class="full-vis width-initial" type="submit" value="create">
+                </form>
+        </span>
    </div>
   </body>
 </html>
