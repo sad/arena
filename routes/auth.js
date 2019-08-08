@@ -56,7 +56,7 @@ module.exports = (passport) => {
                 }
 
                 if(code == "admin") {
-                    record.group = "admin"; //make first user admin
+                    record.group = "admin";
                     record.data.badges["fas fa-code"] = "administrator";
                 }
 
@@ -80,6 +80,11 @@ module.exports = (passport) => {
 
             req.logIn(user, (err) => {
                 if(err) return res.redirect('back');
+                if(user.group == 'banned') {
+                    req.flash('info', 'your account has been disabled');
+                    req.logout();
+                    return res.redirect('back');
+                }
                 return res.redirect('/');
             })
         })(req, res, next);
