@@ -17,7 +17,7 @@ const defaultRules = 2,
         setAttributes(inputElement, {
             type: 'text',
             placeholder: `rule ${id + 1}`,
-            name: `ruleset[${id}]`,
+            name: `ruleset`,
             id: `rule_${id}`,
             style: 'display: block',
             required: true

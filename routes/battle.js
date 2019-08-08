@@ -37,6 +37,18 @@ router.get('/create', isAuthed('can_create_battles'), (req, res, next) => {
     });
 });
 
+
+router.post('/create', isAuthed('can_create_battles'), (req, res, next) => {
+    if(!req.user.group == "admin") return res.redirect('back');
+    // remove this when done testing
+    req.flash('info', JSON.stringify(req.body, null, 2));
+    return res.redirect('back');
+    
+    /* res.render('battle/battle-create', {
+
+    });*/ 
+});
+
 router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
     battle.find({}, (err, doc) => {
         if(err) console.log(err);
