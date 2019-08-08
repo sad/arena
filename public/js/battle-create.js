@@ -32,15 +32,15 @@ const defaultRules = 2,
 let numRules = 0;
 for (let i = 0; i < defaultRules; i++) createRulesetInput(numRules++);
 
-document.querySelector("#rule-add").parentElement.onclick = function() {
+document.querySelector("#rule-add").parentElement.onclick = function () {
     createRulesetInput(numRules++);
 }
 
-document.querySelector("#rule-remove").parentElement.onclick = function() {
+document.querySelector("#rule-remove").parentElement.onclick = function () {
     removeRulesetInput(--numRules);
 }
 
-document.querySelector("form").onsubmit = () => {    
+document.querySelector("form").onsubmit = () => {
     document.querySelector("#startTime_epoch").value = +new Date(document.querySelector("input[name='startTime']").value);
     document.querySelector("#endTime_epoch").value = +new Date(document.querySelector("input[name='endTime']").value);
     return true;
