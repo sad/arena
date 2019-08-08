@@ -28,7 +28,7 @@ input:focus {
     border: none;
     font-family: monospace, sans-serif;
     font-size: 14px;
-    opacity: .7;
+    opacity: .9;
     width: 50%;
 }
 
@@ -109,6 +109,7 @@ a #track:hover,
 select {
     font-family: monospace;
     font-size: 14px;
+    border: none;
 }
 
 .no-border {
