@@ -151,7 +151,8 @@ s {
 
 .header {
     white-space: pre-line;
-    padding-bottom: 2.5vh;
+    /*padding-bottom: 2.5vh;*/
+    margin-bottom: -2vh;
 }
 
 textarea {

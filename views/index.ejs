@@ -4,10 +4,7 @@
     <%- include partials/header.ejs %>
   </head>
   <body>
-    <div class="header">
-      <span class="title noselect">tapes.ws<sup><small class="year">beta</small></sup></span>
-      <span class="nav noselect">[ <a href="../">home</a> / <a href='../c/submit'>submit</a> / <a href="../info">info</a> / <span class="year">arena</span> ]</span>
-    </div>
+    <%- include('partials/nav.ejs', {active: ''}) %>
     <strong>
       <i class="fas fa-fan ico-pad"></i> home
     </strong>
