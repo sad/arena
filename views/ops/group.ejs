@@ -19,17 +19,16 @@
         <br/>
         <input class="full-vis width-initial" type="submit" value="apply">
         </form>
-        </div>
-    </div>
-    <br/>
-    <% if(group.nondefault) { %>
-    <div class="info nospill nav">
-      <i class="fas fa-cog ico-pad"></i> <strong>management</strong>
-      <div class="info">
-      &gt; <form method="post" action="delete" style='display: inline'>
-              <a href="javascript:void(0)" onclick="parentNode.submit()">delete group</a>
-           </form>
-      </div>
+      </div> <br/>
+      <% if(group.nondefault) { %>
+        <div class="info nospill nav">
+          <i class="fas fa-cog ico-pad"></i> <strong>management</strong>
+          <div class="info">
+          &gt; <form method="post" action="delete" style='display: inline'>
+                  <a href="javascript:void(0)" onclick="parentNode.submit()">delete group</a>
+              </form>
+          </div>
       <% } %>
+    </div>
   </body>
 </html>
