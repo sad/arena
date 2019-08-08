@@ -28,12 +28,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Express' });
+router.get('/login', (req, res, next) => {
+  res.render('login');
 });
 
-router.get('/sign-up', function(req, res, next) {
-  res.render('signup', { title: 'Express' });
+router.get('/sign-up', (req, res, next) => {
+  res.render('signup');
 });
 
 router.get('/suggest', isAuthed('can_suggest_rules'), (req, res, next) => {
