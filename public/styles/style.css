@@ -359,3 +359,12 @@ ul {
     height: 35%;
     width: 60%;
 }
+
+#groupForm {
+    display: inline-block;
+}
+
+#groupForm input {
+    display: inline;
+    width: 25%
+}

@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 let groupSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    permissions: [{ type: String }]
+    permissions: [{ type: String }],
+    nondefault: { type: Boolean, required: false }
 });
 
 groupSchema.methods.hasPermission = function(permission) {

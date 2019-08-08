@@ -13,9 +13,16 @@
       <div class="info">
             <% for(let i = 0; i < groups.length; i++) { %>
               <article>
-                  &gt; <a href="groups/<%= groups[i].name %>"><%= groups[i].name %></a>
+                  &gt; <a href="groups/<%= groups[i].name %>/"><%= groups[i].name %></a>
               </article>
             <% } %>
+            
+              <article>
+                  + <form method="post" action="/ops/groups/create" id="groupForm">
+                      <input type="text" name="name" placeholder="name" required>
+                      <input type="submit" value="submit" />
+                    </form>
+              </article>
       </div>
     </div>
   </body>
