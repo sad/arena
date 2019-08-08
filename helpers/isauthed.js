@@ -1,10 +1,11 @@
-const helper = require('./ops.js');
+const groups = require('../models/group');
 
 module.exports = (permission) => {
     return (req, res, next) => {
         if(req.isAuthenticated()) {
-            helper.hasPermission(req.user, permission).then((perm) => {
-                if(perm) return next();
+            groups.findOne({ name: req.user.group }, (err, doc) => {
+                if(doc && doc.permissions.includes(permission)
+                || doc && doc.permissions.includes('*')) return next();
                 req.flash('info', 'you don\'t have permission to view that');
                 return res.redirect('back');
             });

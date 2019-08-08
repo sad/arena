@@ -5,6 +5,11 @@ let moment = require('moment');
 let suggestion = require('../models/suggestions');
 let isAuthed = require('../helpers/isauthed');
 
+let canLogout = (req, res, next) => {
+  if(req.isAuthenticated()) return next();
+  return res.redirect('/login');
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if(!req.isAuthenticated()) return res.render('index', { title: 'lol' });
@@ -53,7 +58,7 @@ router.post('/suggest', isAuthed('can_suggest_rules'), (req, res, next) => {
   }
 });
 
-router.get('/logout', isAuthed, (req, res, next) => {
+router.get('/logout', canLogout, (req, res, next) => {
   req.logout();
   res.redirect('/');
 });
