@@ -168,7 +168,7 @@ button {
     font-family: monospace
 }
 
-input[type="button"]:focus, input[type="submit"] {
+input[type="button"]:focus, input[type="submit"]:focus {
     width: initial;
 }
 
