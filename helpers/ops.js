@@ -1,4 +1,5 @@
 const users = require('../models/user');
+const groups = require('../models/group');
 
 let makeID = (length) => {
     var result           = '';
@@ -29,4 +30,13 @@ let toHHMMSS = (str) => {
     return time;
 }
 
-module.exports = { makeID, getUserCount, toHHMMSS }
+let hasPermission = (user, permission) => {
+    return new Promise((resolve, reject) => {
+        groups.findOne({name: user.group}, (err, doc) => {
+            if(err || !doc) reject('invalid document');
+            if(doc.permissions.includes(permission) || doc.permissions.includes('*')) resolve(true);
+        });
+    });
+}
+
+module.exports = { makeID, getUserCount, toHHMMSS, hasPermission }

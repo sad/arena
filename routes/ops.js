@@ -9,10 +9,11 @@ var permissions = require('../permissions.json');
 
 let isAuthed = (req, res, next) => {
     if(req.isAuthenticated()) {
-        groups.findOne({name: req.user.group}, (err, doc) => {
-            if(err || !doc) return res.redirect('/profile');
-            if(doc.hasPermission('can_view_ops')) return next();
-        });
+        helper.hasPermission(req.user, 'can_view_ops').then((perm) => {
+            if(perm) return next();
+            req.flash('info', 'you don\'t have permission to view that');
+            return res.redirect('/profile');
+        })
     }else {
         return res.redirect('/login');
     }

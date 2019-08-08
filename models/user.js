@@ -17,14 +17,5 @@ userSchema.methods.comparePassword = (password, hash) => {
     return bcrypt.compareSync(password, hash);
 }
 
-/*userSchema.methods.hasPermission = (user, permission) => {
-    return new Promise((resolve, reject) => {
-        group.findOne({name: user.group}, (err, group) => {
-            if(err) reject(err);
-            resolve(group.permissions.includes(permission) || group.permissions.includes("*"));
-        });
-    });
-}*/
-
 module.exports = mongoose.model('users', userSchema, 'users');
 
