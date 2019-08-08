@@ -13,11 +13,14 @@ router.get('/', isAuthed('can_view_ops'), (req, res, next) => {
     users.find({}, (err, doc) => {
         require('child_process').exec('git show -s --format="%h|%B"', (err, stdout) => {
             let commit = err ? "" : stdout;
-            res.render('ops/dashboard', {
-                userCount: doc.length,
-                group: req.user.group,
-                commit: commit,
-                uptime: helper.toHHMMSS(process.uptime())
+            helper.hasPermission(req.user, 'can_view_ops_stats').then(permission => {
+                res.render('ops/dashboard', {
+                    canViewStats: permission,
+                    userCount: doc.length,
+                    group: req.user.group,
+                    commit: commit,
+                    uptime: helper.toHHMMSS(process.uptime())
+                });
             });
         });
     });
