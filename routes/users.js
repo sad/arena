@@ -1,19 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var user = require('../models/user');
-var moment = require('moment');
-
-let isAuthed = (req, res, next) => {
-  if(req.isAuthenticated()) return next();
-  return res.redirect('/login');
-}
+let express = require('express');
+let router = express.Router();
+let user = require('../models/user');
+let moment = require('moment');
+let isAuthed = require('../helpers/isauthed');
 
 router.get('/profile', (req, res, next) => {
   if(req.isAuthenticated()) return res.redirect('/profile/' + req.user.username);
   return res.redirect('/login');
 });
 
-router.get('/profile/:user', isAuthed, (req, res, next) => {
+router.get('/profile/:user', isAuthed('can_view_profiles'), (req, res, next) => {
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
@@ -30,7 +26,7 @@ router.get('/profile/:user', isAuthed, (req, res, next) => {
   });
 });
 
-router.get('/profile/edit/:user', isAuthed, (req, res, next) => {
+router.get('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next) => {
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
@@ -46,7 +42,7 @@ router.get('/profile/edit/:user', isAuthed, (req, res, next) => {
   });
 });
 
-router.get('/profile/edit/:user/password', isAuthed, (req, res, next) => {
+router.get('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, res, next) => {
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     if(req.user.username != req.params.user) return res.redirect('/profile');
@@ -57,7 +53,7 @@ router.get('/profile/edit/:user/password', isAuthed, (req, res, next) => {
   });
 });
 
-router.post('/profile/edit/:user/password', isAuthed, (req, res, next) => {
+router.post('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, res, next) => {
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     if(req.user.username != req.params.user) return res.redirect('/profile');
@@ -90,7 +86,7 @@ router.post('/profile/edit/:user/password', isAuthed, (req, res, next) => {
   });
 });
 
-router.post('/profile/edit/:user', isAuthed, (req, res, next) => {
+router.post('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next) => {
   if(req.user.username != req.params.user && req.user.group != "admin") return res.redirect('back');
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.redirect('back');

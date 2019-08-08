@@ -1,25 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var invites = require('../models/invites');
-var helper = require('../helpers/ops');
-var users = require('../models/user');
-var groups = require('../models/group');
-var bulletin = require('../models/bulletin');
-var permissions = require('../permissions.json');
-
-let isAuthed = (permission) => {
-    return (req, res, next) => {
-        if(req.isAuthenticated()) {
-            helper.hasPermission(req.user, permission).then((perm) => {
-                if(perm) return next();
-                req.flash('info', 'you don\'t have permission to view that');
-                return res.redirect('back');
-            });
-        }else {
-            return res.redirect('/login');
-        }
-    }
-}
+let express = require('express');
+let router = express.Router();
+let invites = require('../models/invites');
+let helper = require('../helpers/ops');
+let users = require('../models/user');
+let groups = require('../models/group');
+let bulletin = require('../models/bulletin');
+let permissions = require('../permissions.json');
+let isAuthed = require('../helpers/isauthed');
 
 // home
 router.get('/', isAuthed('can_view_ops'), (req, res, next) => {

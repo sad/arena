@@ -1,11 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var battle = require('../models/battle');
-
-let isAuthed = (req, res, next) => {
-  if(req.isAuthenticated()) return next();
-  return res.redirect('/login');
-}
+let express = require('express');
+let router = express.Router();
+let battle = require('../models/battle');
+let isAuthed = require('../helpers/isauthed');
 
 router.get('/createsample', (req, res, next) => {
     let test = new battle({
@@ -34,14 +30,14 @@ router.get('/createsample', (req, res, next) => {
     res.redirect('back');
 });
 
-router.get('/create', isAuthed, (req, res, next) => {
+router.get('/create', isAuthed('can_create_battles'), (req, res, next) => {
     if(!req.user.group == "admin") return res.redirect('back');
     res.render('battle/battle-create', {
 
     });
 });
 
-router.get('/', isAuthed, (req, res, next) => {
+router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
     battle.find({}, (err, doc) => {
         if(err) console.log(err);
         if(doc) {
@@ -57,7 +53,7 @@ router.get('/', isAuthed, (req, res, next) => {
     });
 });
 
-router.get('/:id', isAuthed, (req, res, next) => {
+router.get('/:id', isAuthed('can_view_battles'), (req, res, next) => {
     res.render('battle/battle-active', {
         
     });

@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var user = require('../models/user');
-var invites = require('../models/invites');
+let express = require('express');
+let router = express.Router();
+let user = require('../models/user');
+let invites = require('../models/invites');
 
 module.exports = (passport) => {
     router.post('/signup', (req, res, next) => {

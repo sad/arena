@@ -1,12 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var bulletin = require('../models/bulletin');
-var moment = require('moment');
-
-let isAuthed = (req, res, next) => {
-  if(req.isAuthenticated()) return next();
-  return res.redirect('/login');
-}
+let express = require('express');
+let router = express.Router();
+let bulletin = require('../models/bulletin');
+let moment = require('moment');
+let isAuthed = require('../helpers/isauthed');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -34,7 +30,7 @@ router.get('/sign-up', function(req, res, next) {
   res.render('signup', { title: 'Express' });
 });
 
-router.get('/suggest', isAuthed, (req, res, next) => {
+router.get('/suggest', isAuthed('can_suggest_rules'), (req, res, next) => {
   res.render('suggestions/create');
 });
 
