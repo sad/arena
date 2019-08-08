@@ -1,7 +1,3 @@
-Element.prototype.remove = () => {
-    this.parentElement.removeChild(this);
-}
-
 const defaultRules = 2,
     setAttributes = (el, options) => {
 
@@ -29,7 +25,8 @@ const defaultRules = 2,
     },
     removeRulesetInput = function (id) {
         if (id < 0) return;
-        return document.querySelector("#rule_" + id).remove();
+        let element = document.querySelector("#rule_" + id);
+        return element.parentNode.removeChild(element);
     }
 
 let numRules = 0;
