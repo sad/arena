@@ -10,7 +10,7 @@
     </strong>
     <div class="info nospill nav">
         <span class="tape">
-                <form class="pad-input" action="/auth/signup" method="POST">
+                <form class="pad-input" method="POST">
                     <i class="fas fa-info-circle ico-pad"></i> <strong>name</strong>
                     <div class="info">
                         <input type="text" placeholder="short description" name="name" minlength="5" required>
@@ -25,9 +25,8 @@
                           <a href="#"><i class="fas fa-plus" id="rule-add"></i></a><a href="#"></a><a href="#"><i class="fas fa-minus" id="rule-remove"></i></a>
                       </span>
                     </span>
-                    <div class="info">
-                      <input type="text" placeholder="rule 1" name="code" required>
-                      <input type="text" placeholder="rule 2" name="code" required>
+                    <div class="info" id="ruleset">
+                    
                     </div>
                     <i class="fas fa-clock ico-pad"></i><sup>s</sup> <strong>start date/time</strong>
                     <div class="info mb-8">
@@ -45,5 +44,6 @@
                 </form>
         </span>
    </div>
+   <script src="/js/battle-create.js"></script>
   </body>
 </html>
