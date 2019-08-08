@@ -6,7 +6,7 @@
   <body>
     <div class="header">
       <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
-      <span class="nav noselect">[ <a href="../">home</a> / <a href='../battles'>battles</a> / <% if(currentUser == username) { %><span class="year">profile</span><% }else {%><a href="/profile">profile</a><% }%> ]</span>
+      <span class="nav noselect">[ <a href="/">home</a> / <a href='/battles'>battles</a> / <% if(currentUser == username) { %><span class="year">profile</span><% }else {%><a href="/profile">profile</a><% }%> ]</span>
     </div>
     <% if(messages.info) { %>
       <div class="message noselect">
@@ -63,7 +63,7 @@
           <br/>
           <i class="fas fa-cogs ico-pad"></i> <strong>ops</strong>
           <div class="info">
-            <article>&gt; <a href="../ops/users/<%= username %>">view user in ops</a></article>
+            <article>&gt; <a href="/ops/users/<%= username %>">view user in ops</a></article>
           </div>
         <% } %>
       </div>

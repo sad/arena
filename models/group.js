@@ -5,6 +5,9 @@ let groupSchema = new mongoose.Schema({
     permissions: [{ type: String }]
 });
 
+groupSchema.methods.hasPermission = function(permission) {
+    return this.permissions.includes(permission) || this.permissions.includes('*');
+}
 
 module.exports = mongoose.model('group', groupSchema);
 
