@@ -8,6 +8,7 @@
       <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
       <span class="nav noselect">[ <a href="/">home</a> / <a href='/battles'>battles</a> / <a href="/profile">profile</a> ]</span>
     </div>
+    <%- include ../partials/flash.ejs %>
     <strong>
       <i class="fas fa-fan ico-pad"></i> add suggestion
     </strong>
@@ -23,8 +24,8 @@
 
         <i class="fas fa-info-circle ico-pad"></i> <strong>suggestion box</strong>
         <div class="info nospill">
-            <form method="POST" action="/">
-                <textarea required>im should probably make a file upload form for samples and just use this for rules</textarea>
+            <form method="POST" action="/suggest">
+                <textarea name="data" required placeholder=""></textarea>
                 <input type="submit" value="submit" class="width-initial">
             </form>
         </div>

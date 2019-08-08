@@ -38,12 +38,15 @@ invite.findOne({code: "admin"}, (err, doc) => {
   if(!doc && !err) new invite({code: "admin", used: false, infinite: false}).save();
 });
 
+//set initial group permissions
 group.findOne({name: "admin"}, (err, doc) => {
   if(!doc && !err) new group({name: "admin", permissions: ["*"]}).save();
 });
 
 group.findOne({name: "user"}, (err, doc) => {
-  if(!doc && !err) new group({name: "user", permissions: ["can_suggest_rules","can_view_battles","can_participate_battles","can_edit_profile","can_view_profiles"]}).save();
+  if(!doc && !err) new group({name: "user", permissions:
+    ["can_suggest_rules","can_view_battles","can_participate_battles","can_edit_profile","can_view_profiles"]
+  }).save();
 });
 
 group.findOne({name: "banned"}, (err, doc) => {

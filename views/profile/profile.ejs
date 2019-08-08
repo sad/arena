@@ -8,11 +8,7 @@
       <span class="title noselect">tapes.ws<sup><small class="year">arena</small></sup></span>
       <span class="nav noselect">[ <a href="/">home</a> / <a href='/battles'>battles</a> / <% if(currentUser == username) { %><span class="year">profile</span><% }else {%><a href="/profile">profile</a><% }%> ]</span>
     </div>
-    <% if(messages.info) { %>
-      <div class="message noselect">
-        <span id="nav"><i class="fas fa-info-circle ico-pad"></i> <%= messages.info %> </span>
-      </div><br/>
-    <% } %>
+    <%- include ../partials/flash.ejs %>
     <strong>
       <i class="fas fa-fan ico-pad"></i> user profile
     </strong>

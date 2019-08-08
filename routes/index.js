@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let bulletin = require('../models/bulletin');
 let moment = require('moment');
+let suggestion = require('../models/suggestions');
 let isAuthed = require('../helpers/isauthed');
 
 /* GET home page. */
@@ -32,6 +33,24 @@ router.get('/sign-up', function(req, res, next) {
 
 router.get('/suggest', isAuthed('can_suggest_rules'), (req, res, next) => {
   res.render('suggestions/create');
+});
+
+router.post('/suggest', isAuthed('can_suggest_rules'), (req, res, next) => {
+  if(req.body.data) {
+    let newSuggestion = new suggestion({
+      username: req.user.username,
+      time: +new Date(),
+      data: {
+        body: req.body.data
+      }
+    });
+
+    newSuggestion.save((err, doc) => {
+      if(err) req.flash('info', err);
+      if(doc) req.flash('info', 'your submission has been noted');
+      return res.redirect('back');
+    });
+  }
 });
 
 router.get('/logout', isAuthed, (req, res, next) => {
