@@ -7,20 +7,22 @@ var groups = require('../models/group');
 var bulletin = require('../models/bulletin');
 var permissions = require('../permissions.json');
 
-let isAuthed = (req, res, next) => {
-    if(req.isAuthenticated()) {
-        helper.hasPermission(req.user, 'can_view_ops').then((perm) => {
-            if(perm) return next();
-            req.flash('info', 'you don\'t have permission to view that');
-            return res.redirect('/profile');
-        })
-    }else {
-        return res.redirect('/login');
+let isAuthed = (permission) => {
+    return (req, res, next) => {
+        if(req.isAuthenticated()) {
+            helper.hasPermission(req.user, permission).then((perm) => {
+                if(perm) return next();
+                req.flash('info', 'you don\'t have permission to view that');
+                return res.redirect('back');
+            });
+        }else {
+            return res.redirect('/login');
+        }
     }
 }
 
 // home
-router.get('/', isAuthed, (req, res, next) => {
+router.get('/', isAuthed('can_view_ops'), (req, res, next) => {
     users.find({}, (err, doc) => {
         require('child_process').exec('git show -s --format="%h|%B"', (err, stdout) => {
             let commit = err ? "" : stdout;
@@ -35,7 +37,7 @@ router.get('/', isAuthed, (req, res, next) => {
 });
 
 // sys
-router.get('/sys', isAuthed, (req, res, next) => {
+router.get('/sys', isAuthed('can_view_ops_sys'), (req, res, next) => {
     let announce = bulletin.find().sort({ _id: -1 }).limit(1);
     announce.findOne({}, (err, doc) => {
         res.render('ops/sys', {
@@ -44,7 +46,7 @@ router.get('/sys', isAuthed, (req, res, next) => {
     });
 });
 
-router.post('/sys/bulletin', isAuthed, (req, res, next) => {
+router.post('/sys/bulletin', isAuthed('can_change_bulletin'), (req, res, next) => {
     if(req.body.message) {
         let announce = new bulletin({ message: req.body.message, time: +new Date() });
         announce.save((err, result) => {
@@ -56,7 +58,7 @@ router.post('/sys/bulletin', isAuthed, (req, res, next) => {
 });
 
 // invites
-router.get('/invites', isAuthed, (req, res, next) => {
+router.get('/invites', isAuthed('can_view_ops_invites'), (req, res, next) => {
     invites.find({}, (err, doc) => {
         let available = [], used = [];
         doc.forEach((doc) => {
@@ -72,7 +74,7 @@ router.get('/invites', isAuthed, (req, res, next) => {
     });
 });
 
-router.get('/invites/generate', isAuthed, (req, res, next) => {
+router.get('/invites/generate', isAuthed('can_create_invites'), (req, res, next) => {
     let makeid = helper.makeID;
     let code = `${makeid(5)}-${makeid(5)}`.toLowerCase();
     let invite = new invites({code: code, used: false});
@@ -82,7 +84,7 @@ router.get('/invites/generate', isAuthed, (req, res, next) => {
     });
 });
 
-router.get('/invites/generate/:code', isAuthed, (req, res, next) => {
+router.get('/invites/generate/:code', isAuthed('can_create_invites'), (req, res, next) => {
     let invite = new invites({code: req.params.code, used: false});
     invite.save((err, result) => {
         if(err) console.log(err);
@@ -90,14 +92,14 @@ router.get('/invites/generate/:code', isAuthed, (req, res, next) => {
     });
 });
 
-router.get('/invites/delete/:code', isAuthed, (req, res, next) => {
+router.get('/invites/delete/:code', isAuthed('can_delete_invites_all'), (req, res, next) => {
     invites.deleteOne({code: req.params.code}, (err) => {
         if(err) console.log(err);
         return res.redirect('/ops/invites');
     })
 });
 
-router.get('/invites/infinite/:code', isAuthed, (req, res, next) => {
+router.get('/invites/infinite/:code', isAuthed('can_create_invites_infinite'), (req, res, next) => {
     invites.findOne({code: req.params.code}, (err, founddoc) => {
         invites.updateOne({code: req.params.code}, {$set: { infinite: !founddoc.infinite }}, (err, doc => {
             if(err) return res.status(500).send(err);
@@ -107,7 +109,7 @@ router.get('/invites/infinite/:code', isAuthed, (req, res, next) => {
 });
 
 // users
-router.get('/users', isAuthed, (req, res, next) => {
+router.get('/users', isAuthed('can_view_ops_users'), (req, res, next) => {
     users.find({}, (err, doc) => {
         res.render('ops/users', {
             users: doc
@@ -116,7 +118,7 @@ router.get('/users', isAuthed, (req, res, next) => {
 });
 
 
-router.get('/users/:user', isAuthed, (req, res, next) => {
+router.get('/users/:user', isAuthed('can_view_ops_users'), (req, res, next) => {
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.send("lol");
         invites.findOne({usedBy: req.params.user}, (err, invite) => {
@@ -133,7 +135,7 @@ router.get('/users/:user', isAuthed, (req, res, next) => {
     });
 });
 
-router.get('/users/:user/badges', isAuthed, (req, res, next) => {
+router.get('/users/:user/badges', isAuthed('can_manage_badges'), (req, res, next) => {
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.redirect('back');
         return res.render('ops/badges', {
@@ -142,7 +144,7 @@ router.get('/users/:user/badges', isAuthed, (req, res, next) => {
     });
 });
 
-router.get('/users/:user/removebadge/:badge', isAuthed, (req, res, next) => {
+router.get('/users/:user/removebadge/:badge', isAuthed('can_manage_badges'), (req, res, next) => {
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.redirect('back');
         if(user.data.badges[unescape(req.params.badge)] != undefined) {
@@ -155,7 +157,7 @@ router.get('/users/:user/removebadge/:badge', isAuthed, (req, res, next) => {
     });
 });
 
-router.post('/users/:user/addbadge/', isAuthed, (req, res, next) => {
+router.post('/users/:user/addbadge/', isAuthed('can_manage_badges'), (req, res, next) => {
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.redirect('back');
         if(!req.body || !req.body.ico || !req.body.val) return res.redirect('back');
@@ -167,7 +169,7 @@ router.post('/users/:user/addbadge/', isAuthed, (req, res, next) => {
     });
 });
 
-router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
+router.post('/users/:user/setgroup/', isAuthed('can_set_group'), (req, res, next) => {
     let group = req.body.group;
     users.findOne({username: req.params.user}, (err, user) => {
         if(!user || err) return res.redirect('back');
@@ -189,7 +191,7 @@ router.post('/users/:user/setgroup/', isAuthed, (req, res, next) => {
 
 // groups
 
-router.get('/groups', isAuthed, (req, res, next) => {
+router.get('/groups', isAuthed('can_set_group'), (req, res, next) => {
     groups.find({}, (err, doc) => {
         res.render('ops/groups', {
             groups: doc
@@ -197,7 +199,7 @@ router.get('/groups', isAuthed, (req, res, next) => {
     });
 });
 
-router.get('/groups/:group', isAuthed, (req, res, next) => {
+router.get('/groups/:group', isAuthed('can_set_group'), (req, res, next) => {
     groups.findOne({name: req.params.group}, (err, doc) => {
         if(!doc || err) return res.redirect('back');
         res.render('ops/group', {
@@ -207,7 +209,7 @@ router.get('/groups/:group', isAuthed, (req, res, next) => {
     });
 });
 
-router.post('/groups/:group', isAuthed, (req, res, next) => {
+router.post('/groups/:group', isAuthed('can_set_group'), (req, res, next) => {
     let allPermNodes = Object.keys(permissions),
         permNodes = Object.keys(req.body).filter(a => allPermNodes.includes(a));
 
