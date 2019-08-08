@@ -4,6 +4,7 @@ let bulletin = require('../models/bulletin');
 let moment = require('moment');
 let suggestion = require('../models/suggestions');
 let isAuthed = require('../helpers/isauthed');
+let group = require('../models/group');
 
 let canLogout = (req, res, next) => {
   if(req.isAuthenticated()) return next();
@@ -18,12 +19,15 @@ router.get('/', function(req, res, next) {
         announce = bulletin.find().sort({ _id: -1 }).limit(1);
 
     announce.findOne({}, (err, doc) => {
-      return res.render('index-authed', {
-        username: req.user.username,
-        group: req.user.group,
-        bulletin: doc ? doc : "no bulletin set",
-        date: date
-      });
+      group.findOne({name: req.user.group}, (err, group) => {
+        return res.render('index-authed', {
+          username: req.user.username,
+          group: req.user.group,
+          bulletin: doc ? doc : "no bulletin set",
+          permissions: group ? group.permissions : [""],
+          date: date
+        });
+      })
     });
   });
 });
