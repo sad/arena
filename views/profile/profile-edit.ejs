@@ -30,12 +30,22 @@
                 <% } %>
             </div>
             <i class="fas fa-toolbox ico-pad"></i> <strong>gear</strong>
-            <div class="info mb-8">
+            <div class="info">
                 <% if(data.gear && data.gear.trim().length > 0) { %>
                     <input type="text" placeholder="<%= data.gear %>" name="gear">
                 <% } else { %>
                     <input type="text" placeholder="enter your gear here" name="gear">
                 <% } %>
+            </div>
+            <i class="fas fa-wrench ico-pad"></i> <strong>options</strong>
+            <div class="info mb-8">
+              <% if(data.hideStats != undefined && data.hideStats == true) { %>
+                <input type="checkbox" name="hidestats" value="1" checked id="privacy">
+              <% } else { %>
+                <input type="checkbox" name="hidestats" value="0" id="privacy">
+              <% } %>
+              <label for="privacy" class="noselect">hide winrate and battles</label>
+              <br />
             </div>
             <input class="full-vis" type="submit" value="save">
         </form>

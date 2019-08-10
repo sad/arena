@@ -14,7 +14,9 @@
         <form method="POST">
             <% Object.keys(permNodes).forEach(perm => { 
                var checkedValue = group.permissions.includes('*') ? 'checked disabled' : group.permissions.includes(perm) ? 'checked' : '' %>
-              <input type="checkbox" name="<%= perm %>" value="1" <%- checkedValue %> /><%= permNodes[perm] %> <br />
+              <input type="checkbox" id="<%= perm %>" name="<%= perm %>" value="1" <%- checkedValue %> />
+              <label for="<%= perm %>" class="noselect"><%= permNodes[perm] %></label>
+              <br />
             <% }); %>
         <br/>
         <input class="full-vis width-initial" type="submit" value="apply">

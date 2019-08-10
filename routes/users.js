@@ -91,7 +91,7 @@ router.post('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.redirect('back');
 
-    let socials, gear;
+    let socials, gear, hideStats;
     if(doc.data.socials) { socials = doc.data.socials; } else { socials = {}; }
     if(doc.data.gear) { gear = doc.data.gear} else { gear = ""; }
 
@@ -121,7 +121,13 @@ router.post('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next
       gear = req.body.gear.trim();
     }
 
-    user.updateOne({username: req.params.user}, {$set: { "data.socials": socials, "data.gear": gear }}, (err, doc) => {
+    if(req.body.hidestats != undefined && req.body.hidestats == 0) {
+      hideStats = true;
+    }else {
+      hideStats = false;
+    }
+  
+    user.updateOne({username: req.params.user}, {$set: { "data.socials": socials, "data.gear": gear, "data.hideStats": hideStats }}, (err, doc) => {
       req.flash('info', 'profile updated');
       res.redirect('/profile/' + req.params.user);
     });
