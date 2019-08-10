@@ -33,11 +33,12 @@ let numRules = 0;
 for (let i = 0; i < defaultRules; i++) createRulesetInput(numRules++);
 
 document.querySelector("#rule-add").parentElement.onclick = function () {
-    createRulesetInput(numRules++);
+    /* 7 rules max, might change this */
+    if(numRules < 7) createRulesetInput(numRules++);
 }
 
 document.querySelector("#rule-remove").parentElement.onclick = function () {
-    removeRulesetInput(--numRules);
+    if(numRules > 1) removeRulesetInput(--numRules);
 }
 
 document.querySelector("form").onsubmit = () => {

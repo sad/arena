@@ -33,21 +33,34 @@ router.get('/createsample', (req, res, next) => {
 
 router.get('/create', isAuthed('can_create_battles'), (req, res, next) => {
     if(!req.user.group == "admin") return res.redirect('back');
-    res.render('battle/battle-create', {
+    res.render('battle/create', {
 
     });
 });
 
 
 router.post('/create', isAuthed('can_create_battles'), (req, res, next) => {
-    if(!req.user.group == "admin") return res.redirect('back');
     // remove this when done testing
     req.flash('info', JSON.stringify(req.body, null, 2));
-    return res.redirect('back');
-    
-    /* res.render('battle/battle-create', {
+    if(req.body.endTime_epoch < req.body.startTime_epoch) {
+        req.flash('info', 'invalid start/end times');
+        return res.redirect('back');
+    }
+    let newBattle = {
+        name: req.body.name,
+        id: encodeURI(req.body.name.split(" ").join("-").toLowerCase()), //maybe just uuid this
+        description: req.body.desc,
+        ruleset: req.body.ruleset,
+        expiry: req.body.endTime_epoch,
+        submissions: {},
+        rulesetContributor: req.user.username, // this is for if someone suggests some rules and they get used, prob best to make it an array in the schema
+        info: { dq: [] }
+    }
 
-    });*/ 
+    if(req.body.blindvote) newBattle.info.blindvote = true;
+    let test = new battle(newBattle);
+    console.log(test);
+    return res.redirect('back');
 });
 
 router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
@@ -59,7 +72,7 @@ router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
             });
             group.findOne({ name: req.user.group }, (err, group) => {
                 if(!group) return res.redirect('back');
-                res.render('battle/battles', {
+                res.render('battle/index', {
                     ongoing: ongoing,
                     permissions: group.permissions
                 });
@@ -70,7 +83,7 @@ router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
 });
 
 router.get('/:id', isAuthed('can_view_battles'), (req, res, next) => {
-    res.render('battle/battle-active', {
+    res.render('battle/active', {
         
     });
 });
