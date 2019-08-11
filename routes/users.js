@@ -14,7 +14,7 @@ router.get('/profile/:user', isAuthed('can_view_profiles'), (req, res, next) => 
     if(err || !doc) return res.send('idk who that is');
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
     
-    return res.render('profile/profile', {
+    return res.render('profile/index', {
       title: `${req.params.user} | arena.tapes.ws`,
       currentUser: req.user.username,
       currentGroup: req.user.group,
@@ -31,7 +31,7 @@ router.get('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next)
     if(err || !doc) return res.send('idk who that is');
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
     if(req.user.username != req.params.user /*&& req.user.group != "admin"*/) return res.redirect('/profile');
-    return res.render('profile/profile-edit', {
+    return res.render('profile/edit', {
       title: `${req.params.user} | arena.tapes.ws`,
       currentUser: req.user.username,
       username: doc.username,
@@ -46,7 +46,7 @@ router.get('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, r
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     if(req.user.username != req.params.user) return res.redirect('/profile');
-    return res.render('profile/profile-edit-password', {
+    return res.render('profile/edit-password', {
       title: `${req.params.user} | arena.tapes.ws`,
       username: doc.username
     });
