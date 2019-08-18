@@ -13,7 +13,7 @@
         <i class="fas fa-user-circle ico-pad"></i> <strong>credentials</strong>
         <div class="info">
             <article>username: <strong><%= username %></strong></article>
-            <article><a href="<%= username %>/password">change password</a></article>
+            <article><a href="/profile/edit/<%= username %>/password">change password</a></article>
         </div>
         <form action="/profile/edit/<%=username %>" method="POST">
             <i class="fas fa-globe-europe ico-pad"></i> <strong>socials</strong>

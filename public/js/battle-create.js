@@ -1,4 +1,4 @@
-const defaultRules = 2,
+const defaultRules = 2, maxRules = 7,
     setAttributes = (el, options) => {
 
         Object.keys(options).forEach(function (attr) {
@@ -21,7 +21,6 @@ const defaultRules = 2,
 
 
         return rulesetElement.appendChild(inputElement);
-
     },
     removeRulesetInput = function (id) {
         if (id < 0) return;
@@ -33,8 +32,7 @@ let numRules = 0;
 for (let i = 0; i < defaultRules; i++) createRulesetInput(numRules++);
 
 document.querySelector("#rule-add").parentElement.onclick = function () {
-    /* 7 rules max, might change this */
-    if(numRules < 7) createRulesetInput(numRules++);
+    if(numRules < maxRules) createRulesetInput(numRules++);
 }
 
 document.querySelector("#rule-remove").parentElement.onclick = function () {

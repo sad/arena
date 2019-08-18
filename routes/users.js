@@ -4,14 +4,13 @@ let user = require('../models/user');
 let moment = require('moment');
 let isAuthed = require('../helpers/isauthed');
 
-router.get('/profile', (req, res, next) => {
-  if(req.isAuthenticated()) return res.redirect('/profile/' + req.user.username);
-  return res.redirect('/login');
+router.get('/profile', isAuthed('can_view_profiles'), (req, res, next) => {
+  return res.redirect('/profile/' + req.user.username);
 });
 
 router.get('/profile/:user', isAuthed('can_view_profiles'), (req, res, next) => {
   user.findOne({username: req.params.user}, (err, doc) => {
-    if(err || !doc) return res.send('idk who that is');
+    if(err || !doc) return next();
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
     
     return res.render('profile/index', {
@@ -56,7 +55,6 @@ router.post('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, 
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     if(req.user.username != req.params.user) return res.redirect('/profile');
-    //console.log(req.body);
     if(!req.body || !req.body.oldpw || !req.body.newpw) {
       req.flash('info', 'please fill out all fields');
       res.redirect('back');

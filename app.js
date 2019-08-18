@@ -23,6 +23,8 @@ const battleRouter = require('./routes/battle');
 const invite = require('./models/invites');
 const group = require('./models/group');
 
+require('./helpers/passport')(passport);
+
 const app = express();
 
 if(!config || !config.sessionsecret || config.sessionsecret.trim() == "" ||!config.mongourl) {
@@ -31,11 +33,13 @@ if(!config || !config.sessionsecret || config.sessionsecret.trim() == "" ||!conf
 }
 
 mongoose.connect(config.mongourl, { useNewUrlParser: true });
-require('./helpers/passport')(passport);
 
 //create initial invite valid for one use (first user)
 invite.findOne({code: "admin"}, (err, doc) => {
-  if(!doc && !err) new invite({code: "admin", used: false, infinite: false}).save();
+  if(!doc && !err) {
+    console.log("Created initial invite ('admin').")
+    new invite({code: "admin", used: false, infinite: false}).save();
+  }
 });
 
 //set initial group permissions
@@ -53,11 +57,11 @@ group.findOne({name: "banned"}, (err, doc) => {
   if(!doc && !err) new group({name: "banned", permissions: []}).save();
 });
 
-// view engine setup
+//view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// middleware
+//middleware
 app.use(logger('dev'));
 app.use(helmet());
 app.use(express.json());
@@ -83,25 +87,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-// routes
+//routes
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/auth', authRouter);
 app.use('/ops', opsRouter);
 app.use('/battles', battleRouter);
 
-// catch 404 and forward to error handler
+//catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
+//error handler
 app.use((err, req, res, next) => {
-  // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
+  res.locals.error = config.env != undefined && config.env == "dev" ? err : {};
   res.status(err.status || 500);
   res.render('error');
 });

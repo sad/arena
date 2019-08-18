@@ -69,7 +69,7 @@ router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
             });
             group.findOne({ name: req.user.group }, (err, group) => {
                 if(!group) return res.redirect('back');
-                res.render('battle/index', {
+                return res.render('battle/index', {
                     ongoing: ongoing,
                     permissions: group.permissions
                 });
@@ -80,9 +80,7 @@ router.get('/', isAuthed('can_view_battles'), (req, res, next) => {
 });
 
 router.get('/:id', isAuthed('can_view_battles'), (req, res, next) => {
-    res.render('battle/active', {
-        
-    });
+    return res.render('battle/active', {});
 });
 
 module.exports = router;
