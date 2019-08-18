@@ -1,10 +1,10 @@
 let express = require('express');
 let router = express.Router();
-let bulletin = require('../models/bulletin');
 let moment = require('moment');
+let bulletin = require('../models/bulletin');
 let suggestion = require('../models/suggestions');
-let isAuthed = require('../helpers/isauthed');
 let group = require('../models/group');
+let isAuthed = require('../helpers/isauthed');
 
 let canLogout = (req, res, next) => {
   if(req.isAuthenticated()) return next();
@@ -33,11 +33,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', (req, res, next) => {
-  res.render('login');
+  if(req.isAuthenticated()) return res.redirect('back');
+  return res.render('login');
 });
 
 router.get('/sign-up', (req, res, next) => {
-  res.render('signup');
+  if(req.isAuthenticated()) return res.redirect('back');
+  return res.render('signup');
 });
 
 router.get('/suggest', isAuthed('can_suggest_rules'), (req, res, next) => {
@@ -62,9 +64,32 @@ router.post('/suggest', isAuthed('can_suggest_rules'), (req, res, next) => {
   }
 });
 
+router.get('/suggest/view/:page?', isAuthed('can_create_battles'), (req, res, next) => {
+  let page = req.params.page ? req.params.page : 1;
+  suggestion.paginate({}, { page: page, limit: 10, sort: { _id: -1 } }, (err, result) => {
+    if(err) {
+      req.flash('info', 'error displaying suggestions');
+      return res.redirect('back');
+    }
+
+    if(result.docs.length == 0) {
+      req.flash('info', `no results found on page ${page}`);
+      return res.redirect('back');
+    }
+
+    return res.render('suggestions/view', {
+      count: result.docs.length,
+      documents: result.docs,
+      page: page,
+      getTime: (t) => { return require('moment')(t).format('Do MMM, h:mma'); }
+    });
+  });
+});
+
 router.get('/logout', canLogout, (req, res, next) => {
   req.logout();
-  res.redirect('/');
+  req.flash('info', 'logged out! bye bye');
+  return res.redirect('/');
 });
 
 module.exports = router;

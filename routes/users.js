@@ -15,7 +15,6 @@ router.get('/profile/:user', isAuthed('can_view_profiles'), (req, res, next) => 
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
     
     return res.render('profile/index', {
-      title: `${req.params.user} | arena.tapes.ws`,
       currentUser: req.user.username,
       currentGroup: req.user.group,
       username: doc.username,
@@ -30,7 +29,7 @@ router.get('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next)
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
-    if(req.user.username != req.params.user /*&& req.user.group != "admin"*/) return res.redirect('/profile');
+    if(req.user.username != req.params.user && req.user.group != "admin") return res.redirect('/profile');
     return res.render('profile/edit', {
       title: `${req.params.user} | arena.tapes.ws`,
       currentUser: req.user.username,

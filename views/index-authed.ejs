@@ -22,6 +22,9 @@
         <% if(permissions.includes('can_suggest_rules') || permissions.includes('*')) { %>
           <article><span>&gt; <a href="/suggest">suggest rules or samples</a></span></article>
         <% } %>
+        <% if(permissions.includes('can_create_battles') || permissions.includes('*')) { %>
+          <article><span>&gt; <a href="/suggest/view">view suggestions</a></span></article>
+        <% } %>
         <article><span>&gt; <a href="https://tapes.ws">return to tapes.ws</a></span></article>
         <% if(permissions.includes('can_view_ops') || permissions.includes('*')) { %>
           <article><span>&gt; <a href="/ops">view ops dashboard</a></span></article>

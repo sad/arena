@@ -2,12 +2,14 @@ const users = require('../models/user');
 const groups = require('../models/group');
 
 let makeID = (length) => {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
+    let result = '',
+        characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+        charactersLength = characters.length;
+
+    for (let i = 0; i < length; i++) {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
+
     return result;
 }
 
@@ -18,15 +20,16 @@ let getUserCount = () => {
 }
 
 let toHHMMSS = (str) => {
-    var secNum = parseInt(str, 10); // don't forget the second param
-    var hours   = Math.floor(secNum / 3600);
-    var minutes = Math.floor((secNum - (hours * 3600)) / 60);
-    var seconds = secNum - (hours * 3600) - (minutes * 60);
+    let secNum = parseInt(str, 10),
+    hours = Math.floor(secNum / 3600),
+    minutes = Math.floor((secNum - (hours * 3600)) / 60),
+    seconds = secNum - (hours * 3600) - (minutes * 60);
 
-    if (hours   < 10) {hours = "0"+ hours};
-    if (minutes < 10) {minutes = "0"+ minutes};
-    if (seconds < 10) {seconds = "0"+ seconds};
+    if(hours < 10) { hours = "0"+ hours };
+    if(minutes < 10) { minutes = "0"+ minutes };
+    if(seconds < 10) { seconds = "0"+ seconds };
     var time = `${hours}:${minutes}:${seconds}`;
+
     return time;
 }
 

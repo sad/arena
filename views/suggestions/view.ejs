@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <%- include('../partials/header.ejs', {title: 'suggest'}) %>
+  </head>
+  <body>
+    <%- include('../partials/nav.ejs', {active: ''}) %>
+    <strong>
+      <i class="fas fa-fan ico-pad"></i> view suggestions
+    </strong>
+    <div class="info nospill nav" id="main">
+      <% for(let i = 0; i < documents.length; i++) { %>
+        <article class="noselect">
+          <i class="fas fa-user-circle ico-pad"></i> <strong><%= documents[i].username %> <span class="year">(<%= getTime(documents[i].time) %>)</span></strong>
+          <div class="info">
+            <%= documents[i].data.body %>
+          </div>
+        </article>
+      <% } %>
+      <br class="mb-8"/>
+      <span class="paginate ico-pad">
+        <% if(page > 1) { %>
+          <a href="/suggest/view/<%= parseInt(page)-1 %>">&lt;&lt; back</a> | 
+        <% } %>
+        <a href="/suggest/view/<%= parseInt(page)+1 %>">&gt;&gt; next</a>
+      </span>
+    </div>
+  </body>
+</html>

@@ -4,11 +4,15 @@
     <%- include('../partials/header.ejs', {title: username}) %>
   </head>
   <body>
-    <%- include('../partials/nav.ejs', {active: 'profile'}) %>
+    <% if(currentUser == username) { %>
+      <%- include('../partials/nav.ejs', {active: 'profile'}) %>
+    <% } else { %>
+      <%- include('../partials/nav.ejs', {active: ''}) %>
+    <% } %>
     <strong>
       <i class="fas fa-fan ico-pad"></i> user profile
     </strong>
-    <% if(currentUser == username) { %>
+    <% if(currentUser == username || currentGroup == 'admin') { %>
       <span class="toolbar nav">
           <span>
             <a href="/profile/edit/<%=username%>"><i class="fas fa-edit nohover"></i></a>

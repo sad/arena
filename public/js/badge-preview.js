@@ -1,4 +1,3 @@
-// preview badge icon
 let ele = document.getElementById('preview'),
     prev = document.getElementById('ico-preview');
 

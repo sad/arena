@@ -32,10 +32,7 @@ router.get('/createsample', (req, res, next) => {
 });
 
 router.get('/create', isAuthed('can_create_battles'), (req, res, next) => {
-    if(!req.user.group == "admin") return res.redirect('back');
-    res.render('battle/create', {
-
-    });
+    return res.render('battle/create', {});
 });
 
 

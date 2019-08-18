@@ -291,6 +291,7 @@ router.post('/groups/:group', isAuthed('can_set_group'), (req, res, next) => {
             }
         }, (err, doc) => {
             if (err) req.flash('info', 'error changing group permsisions');
+            else req.flash('info', 'group updated');
             return res.redirect('back');
         });
 

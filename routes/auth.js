@@ -43,17 +43,20 @@ module.exports = (passport) => {
                     }));
                 }
 
-                let record = new user({ username: username, group: "user" });
-                record.data = {
-                    "joined": +new Date,
-                    "badges": {
-                        "fas fa-cog": "beta tester"
-                    },
-                    "battles": {
-                        "participated": 0,
-                        "won": 0
+                let record = new user({
+                    username: username,
+                    group: "user",
+                    data: {
+                        "joined": +new Date,
+                        "badges": {
+                            "fas fa-cog": "beta tester"
+                        },
+                        "battles": {
+                            "participated": 0,
+                            "won": 0
+                        }
                     }
-                }
+                });
 
                 if(code == "admin") {
                     record.group = "admin";
