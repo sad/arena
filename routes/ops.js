@@ -78,8 +78,8 @@ router.get('/invites/generate', isAuthed('can_create_invites'), (req, res, next)
         used: false
     });
     invite.save((err, result) => {
-        if (err) console.log(err);
-        res.redirect('/ops/invites');
+        if (err) req.flash('info', 'error while creating invite');
+        return res.redirect('/ops/invites');
     });
 });
 
@@ -89,8 +89,8 @@ router.get('/invites/generate/:code', isAuthed('can_create_invites'), (req, res,
         used: false
     });
     invite.save((err, result) => {
-        if (err) console.log(err);
-        res.redirect('/ops/invites');
+        if (err) req.flash('info', 'error while creating invite');
+        return res.redirect('/ops/invites');
     });
 });
 
@@ -98,7 +98,7 @@ router.get('/invites/delete/:code', isAuthed('can_delete_invites_all'), (req, re
     invites.deleteOne({
         code: req.params.code
     }, (err) => {
-        if (err) console.log(err);
+        if (err) req.flash('info', 'error while deleting invite');
         return res.redirect('/ops/invites');
     })
 });
@@ -114,7 +114,7 @@ router.get('/invites/infinite/:code', isAuthed('can_create_invites_infinite'), (
                 infinite: !founddoc.infinite
             }
         }, (err, doc => {
-            if (err) return res.status(500).send(err);
+            if (err) req.flash('info', 'error while editing invite');
             return res.redirect('/ops/invites');
         }));
     });
@@ -123,7 +123,7 @@ router.get('/invites/infinite/:code', isAuthed('can_create_invites_infinite'), (
 // users
 router.get('/users', isAuthed('can_view_ops_users'), (req, res, next) => {
     users.find({}, (err, doc) => {
-        res.render('ops/users', {
+        return res.render('ops/users', {
             users: doc
         });
     });
@@ -134,7 +134,11 @@ router.get('/users/:user', isAuthed('can_view_ops_users'), (req, res, next) => {
     users.findOne({
         username: req.params.user
     }, (err, user) => {
-        if (!user || err) return res.send("lol");
+        if (!user || err) {
+            req.flash('info', `couldn't get ${req.params.user}'s profile`);
+            return res.redirect('back');    
+        }
+
         invites.findOne({
             usedBy: req.params.user
         }, (err, invite) => {

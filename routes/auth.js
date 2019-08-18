@@ -10,7 +10,10 @@ module.exports = (passport) => {
             code = req.body.code,
             usernameRegex = /^[a-zA-Z0-9-_]+$/;
 
-        if(!username || !password || !code) return res.status(500).send("required fields not filled");
+        if(!username || !password || !code) {
+            req.flash('info', 'required fields not filled');
+            return res.redirect('back');
+        }
 
         if(username.length < 3 || username.length > 12) { 
             req.flash('info', 'username must be between 3 and 12 characters'); 
@@ -39,7 +42,10 @@ module.exports = (passport) => {
 
                 if(!doc.infinite || doc.infinite == undefined) {
                     invites.updateOne({code: code}, {$set: { used: true, usedBy: username }}, (err, doc => {
-                        if(err) return res.status(500).send(err);
+                        if(err) {
+                            req.flash('info', `error using invite ${code}`);
+                            return res.redirect('back');
+                        }
                     }));
                 }
 
@@ -65,9 +71,12 @@ module.exports = (passport) => {
 
                 record.password = record.hashPassword(password);
                 record.save((err, result) => {
-                    if(err) return res.status(500).send(err);
+                    if(err) {
+                        req.flash('info', 'error creating account');
+                        return res.redirect('back');
+                    }
                     req.flash('info', 'account created! please sign in');
-                    res.redirect('/profile'); // redirect to /welcome maybe, redirecting back to / doesnt work and unaths
+                    return res.redirect('/profile'); // redirect to /welcome maybe, redirecting back to / doesnt work and unaths
                 });
             });
         });
@@ -82,7 +91,11 @@ module.exports = (passport) => {
             }
 
             req.logIn(user, (err) => {
-                if(err) return res.redirect('back');
+                if(err) {
+                    req.flash('info', 'error signing in');
+                    return res.redirect('back');
+                }
+
                 if(user.group == 'banned') {
                     req.flash('info', 'your account has been disabled');
                     req.logout();

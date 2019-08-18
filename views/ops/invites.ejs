@@ -15,7 +15,7 @@
         <% for(let i = 0; i < available.length; i++) { %>
           <% let split = available[i].split(" (")[0]; %>
           <article>
-            <%- available[i] %> [ <a href="/ops/invites/delete/<%=split %>"><i class="fas fa-trash-alt"></i></a> <a href="/ops/invites/infinite/<%=split %>"><i class="fas fa-infinity"></i></a> ]
+            <%- available[i] %> [ <a href="/ops/invites/delete/<%=split %>">del</a> <span class="year">/</span> <a href="/ops/invites/infinite/<%=split %>">inf</a> ]
           </article>
         <% } %>
       </div>

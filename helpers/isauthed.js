@@ -6,7 +6,8 @@ module.exports = (permission) => {
             groups.findOne({ name: req.user.group }, (err, doc) => {
                 if(doc && req.user.group == 'banned') return res.redirect('/logout');
                 if(doc && doc.permissions.includes(permission)
-                || doc && doc.permissions.includes('*')) return next();
+                    || doc && doc.permissions.includes('*')) return next();
+                
                 req.flash('info', 'you don\'t have permission to view that');
                 return res.redirect('back');
             });

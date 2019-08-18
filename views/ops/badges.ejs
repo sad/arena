@@ -12,7 +12,7 @@
         <% Object.keys(user.data.badges).forEach(function(badge) { %>
           <article>
               <i class="<%= badge %>"></i> <%= user.data.badges[badge] %> 
-              <a class="year" href="/ops/user/<%= user.username %>/removebadge/<%= encodeURI(badge) %>">(x)</a>
+              <a class="year" href="/ops/users/<%= user.username %>/removebadge/<%= encodeURI(badge) %>">(x)</a>
         </article>
         <% }); %>
         <br />
