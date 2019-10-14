@@ -1,17 +1,19 @@
 # arena
-**arena** is a work in progress site that allows people to beat battle one another easily. a sample and/or ruleset will be provided, and users will be tasked to make a beat in a certain time period that uses the sample and/or conforms to the rules. once the time limit has lapsed, a voting phase will begin which will allow users to vote on who made the best beat.
+**arena** is a work in progress site that allows people to "beatbattle" one another easily. a sample and/or ruleset will be provided, and users will be tasked to make a beat in a certain time period that uses the sample and/or conforms to the rules. once the time limit has lapsed, a voting phase will begin which will allow users to vote on who made the best beat.
 
-### requirements
+### Requirements
 - nodejs >= 11.0
 - mongodb
 - yarn
 
-### installing
+### running
 ```sh
 $ yarn
 $ yarn run config
 $ yarn run start
 ```
+
+[PM2](http://pm2.keymetrics.io/) is recommended to daemonize the application and manage state. 
 
 ### permission nodes
 ```
