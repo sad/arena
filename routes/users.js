@@ -30,7 +30,6 @@ router.get('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next)
     let joined = new moment(doc.data.joined).format("ddd Do MMM YYYY").toLowerCase();
     if(req.user.username != req.params.user && req.user.group != "admin") return res.redirect('/profile');
     return res.render('profile/edit', {
-      title: `${req.params.user} | arena.tapes.ws`,
       currentUser: req.user.username,
       username: doc.username,
       group: req.session.group,
@@ -44,10 +43,8 @@ router.get('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, r
   user.findOne({username: req.params.user}, (err, doc) => {
     if(err || !doc) return res.send('idk who that is');
     if(req.user.username != req.params.user) return res.redirect('/profile');
-    return res.render('profile/edit-password', {
-      title: `${req.params.user} | arena.tapes.ws`,
-      username: doc.username
-    });
+    
+    return res.render('profile/edit-password', { username: doc.username });
   });
 });
 
@@ -122,7 +119,7 @@ router.post('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next
       hideStats = true;
     }else {
       hideStats = false;
-    }
+    } 
   
     user.updateOne({username: req.params.user}, {$set: { "data.socials": socials, "data.gear": gear, "data.hideStats": hideStats }}, (err, doc) => {
       req.flash('info', 'profile updated');

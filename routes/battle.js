@@ -35,7 +35,6 @@ router.get('/create', isAuthed('can_create_battles'), (req, res, next) => {
     return res.render('battle/create', {});
 });
 
-
 router.post('/create', isAuthed('can_create_battles'), (req, res, next) => {
     // remove this when done testing
     req.flash('info', JSON.stringify(req.body, null, 2));

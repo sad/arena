@@ -70,18 +70,20 @@ app.use(cookieParser());
 app.use(minify());
 app.use(minifyHTML({ override: true, htmlMinifier: { collapseWhitespace: false } }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  name: "arena",
-  secret: config.sessionsecret,
-  saveUninitialized: false,
-  resave: false,
-  store: new mongoStore({ mongooseConnection: mongoose.connection }),
-  cookie: {
-    httpOnly: true,
-    expires: 1000 * 60 * 60 * 24 * 30,
-    secure: config.env != undefined && config.env == "dev" ? false : true
-  }
-}));
+app.use(
+  session({
+    name: "arena",
+    secret: config.sessionsecret,
+    saveUninitialized: false,
+    resave: false,
+    store: new mongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: {
+      httpOnly: true,
+      expires: 1000 * 60 * 60 * 24 * 30,
+      secure: config.env != undefined && config.env == "dev" ? false : true
+    }
+  })
+);
 app.use(compression());
 app.use(passport.initialize());
 app.use(passport.session());

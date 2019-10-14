@@ -1,9 +1,17 @@
-# arena.tapes.ws
+# arena
+**arena** is a work in progress site that allows people to beat battle one another easily. a sample and/or ruleset will be provided, and users will be tasked to make a beat in a certain time period that uses the sample and/or conforms to the rules. once the time limit has lapsed, a voting phase will begin which will allow users to vote on who made the best beat.
 
-beatbattle arena thing
+### requirements
+- nodejs >= 11.0
+- mongodb
+- yarn
 
 ### installing
-`yarn`, `yarn run config`, `yarn run start`
+```sh
+$ yarn
+$ yarn run config
+$ yarn run start
+```
 
 ### permission nodes
 ```

@@ -73,7 +73,8 @@ router.get('/suggest/view/:page?', isAuthed('can_create_battles'), (req, res, ne
     }
 
     if(result.docs.length == 0) {
-      req.flash('info', `no results found on page ${page}`);
+      let err = page == 1 ? `no results found` : `no results found on page ${page}`;
+      req.flash('info', err);
       return res.redirect('back');
     }
 
@@ -81,7 +82,7 @@ router.get('/suggest/view/:page?', isAuthed('can_create_battles'), (req, res, ne
       count: result.docs.length,
       documents: result.docs,
       page: page,
-      getTime: (t) => { return require('moment')(t).format('Do MMM, h:mma'); }
+      getTime: (t) => { return moment(t).format('Do MMM, h:mma'); }
     });
   });
 });
