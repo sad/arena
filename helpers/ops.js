@@ -1,45 +1,45 @@
 const users = require('../models/user');
 const groups = require('../models/group');
 
-let makeID = (length) => {
-    let result = '',
-        characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-        charactersLength = characters.length;
+const makeID = (length) => {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
 
-    for (let i = 0; i < length; i++) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
+  for (let i = 0; i < length; i += 1) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
 
-    return result;
-}
+  return result;
+};
 
-let getUserCount = () => {
-    users.find({}, (err, doc) => {
-        if(!err) return doc.length;
-    });
-}
+const getUserCount = () => {
+  users.find({}, (err, doc) => {
+    if (!err) return doc.length;
+  });
+};
 
-let toHHMMSS = (str) => {
-    let secNum = parseInt(str, 10),
-    hours = Math.floor(secNum / 3600),
-    minutes = Math.floor((secNum - (hours * 3600)) / 60),
-    seconds = secNum - (hours * 3600) - (minutes * 60);
+const toHHMMSS = (str) => {
+  const secNum = parseInt(str, 10);
+  let hours = Math.floor(secNum / 3600);
+  let minutes = Math.floor((secNum - (hours * 3600)) / 60);
+  let seconds = secNum - (hours * 3600) - (minutes * 60);
 
-    if(hours < 10) { hours = "0"+ hours };
-    if(minutes < 10) { minutes = "0"+ minutes };
-    if(seconds < 10) { seconds = "0"+ seconds };
-    var time = `${hours}:${minutes}:${seconds}`;
+  if (hours < 10) { hours = `0${hours}`; }
+  if (minutes < 10) { minutes = `0${minutes}`; }
+  if (seconds < 10) { seconds = `0${seconds}`; }
+  const time = `${hours}:${minutes}:${seconds}`;
 
-    return time;
-}
+  return time;
+};
 
-let hasPermission = (user, permission) => {
-    return new Promise((resolve, reject) => {
-        groups.findOne({name: user.group}, (err, doc) => {
-            if(err || !doc) reject('invalid document');
-            if(doc.permissions.includes(permission) || doc.permissions.includes('*')) resolve(true);
-        });
-    });
-}
+const hasPermission = (user, permission) => new Promise((resolve, reject) => {
+  groups.findOne({ name: user.group }, (err, doc) => {
+    if (err || !doc) reject(new Error('invalid document'));
+    if (doc.permissions.includes(permission) || doc.permissions.includes('*')) resolve(true);
+  });
+});
 
-module.exports = { makeID, getUserCount, toHHMMSS, hasPermission }
+module.exports = {
+  makeID, getUserCount, toHHMMSS, hasPermission,
+};
