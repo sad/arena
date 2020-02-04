@@ -16,7 +16,7 @@ const config = require('./config.json');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth').default(passport);
+const authRouter = require('./routes/auth')(passport);
 const opsRouter = require('./routes/ops');
 const battleRouter = require('./routes/battle');
 
