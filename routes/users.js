@@ -5,7 +5,7 @@ const Moment = require('moment');
 const user = require('../models/user');
 const isAuthed = require('../helpers/isauthed');
 
-router.get('/profile', isAuthed('can_view_profiles'), (req, res, next) => res.redirect(`/profile/${req.user.username}`));
+router.get('/profile', isAuthed('can_view_profiles'), (req, res) => res.redirect(`/profile/${req.user.username}`));
 
 router.get('/profile/:user', isAuthed('can_view_profiles'), (req, res, next) => {
   user.findOne({ username: req.params.user }, (err, doc) => {
@@ -23,11 +23,11 @@ router.get('/profile/:user', isAuthed('can_view_profiles'), (req, res, next) => 
   });
 });
 
-router.get('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next) => {
+router.get('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res) => {
   user.findOne({ username: req.params.user }, (err, doc) => {
     if (err || !doc) return res.send('idk who that is');
     const joined = new Moment(doc.data.joined).format('ddd Do MMM YYYY').toLowerCase();
-    if (req.user.username != req.params.user && req.user.group != 'admin') return res.redirect('/profile');
+    if (req.user.username !== req.params.user && req.user.group !== 'admin') return res.redirect('/profile');
     return res.render('profile/edit', {
       currentUser: req.user.username,
       username: doc.username,
@@ -38,19 +38,19 @@ router.get('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next)
   });
 });
 
-router.get('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, res, next) => {
+router.get('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, res) => {
   user.findOne({ username: req.params.user }, (err, doc) => {
     if (err || !doc) return res.send('idk who that is');
-    if (req.user.username != req.params.user) return res.redirect('/profile');
+    if (req.user.username !== req.params.user) return res.redirect('/profile');
 
     return res.render('profile/edit-password', { username: doc.username });
   });
 });
 
-router.post('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, res, next) => {
+router.post('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, res) => {
   user.findOne({ username: req.params.user }, (err, doc) => {
     if (err || !doc) return res.send('idk who that is');
-    if (req.user.username != req.params.user) return res.redirect('/profile');
+    if (req.user.username !== req.params.user) return res.redirect('/profile');
     if (!req.body || !req.body.oldpw || !req.body.newpw) {
       req.flash('info', 'please fill out all fields');
       res.redirect('back');
@@ -61,10 +61,10 @@ router.post('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, 
       res.redirect('back');
     }
 
-    if ('compare', doc.comparePassword(req.body.oldpw, doc.password)) {
+    if (doc.comparePassword(req.body.oldpw, doc.password)) {
       const newpass = doc.hashPassword(req.body.newpw);
-      user.updateOne({ username: req.params.user }, { $set: { password: newpass } }, (err, doc) => {
-        if (err) {
+      user.updateOne({ username: req.params.user }, { $set: { password: newpass } }, (uErr) => {
+        if (uErr) {
           req.flash('info', 'there was an error updating your password');
           return res.redirect('back');
         }
@@ -78,8 +78,8 @@ router.post('/profile/edit/:user/password', isAuthed('can_edit_profile'), (req, 
   });
 });
 
-router.post('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next) => {
-  if (req.user.username != req.params.user && req.user.group != 'admin') return res.redirect('back');
+router.post('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res) => {
+  if (req.user.username !== req.params.user && req.user.group !== 'admin') return res.redirect('back');
   user.findOne({ username: req.params.user }, (err, doc) => {
     if (err || !doc) return res.redirect('back');
 
@@ -88,39 +88,39 @@ router.post('/profile/edit/:user', isAuthed('can_edit_profile'), (req, res, next
     if (doc.data.socials) { socials = doc.data.socials; } else { socials = {}; }
     if (doc.data.gear) { gear = doc.data.gear; } else { gear = ''; }
 
-    if (req.body.scurl && req.body.scurl.trim() != '') {
+    if (req.body.scurl && req.body.scurl.trim() !== '') {
       let url = req.body.scurl;
       if (req.body.scurl.startsWith('https') || req.body.scurl.startsWith('http://')) {
         url = url.replace('https://', '').replace('http://', '');
       }
 
-      if (url.startsWith('soundcloud.com') && url != 'soundcloud.com') {
+      if (url.startsWith('soundcloud.com') && url !== 'soundcloud.com') {
         socials['fab fa-soundcloud'] = url;
       }
     }
 
-    if (req.body.bcurl && req.body.bcurl.trim() != '') {
+    if (req.body.bcurl && req.body.bcurl.trim() !== '') {
       let url = req.body.bcurl;
       if (req.body.bcurl.startsWith('https') || req.body.bcurl.startsWith('http://')) {
         url = url.replace('https://', '').replace('http://', '');
       }
 
-      if (url.endsWith('bandcamp.com') && url != 'bandcamp.com') {
+      if (url.endsWith('bandcamp.com') && url !== 'bandcamp.com') {
         socials['fab fa-bandcamp'] = url;
       }
     }
 
-    if (req.body.gear && req.body.gear.trim() != '') {
+    if (req.body.gear && req.body.gear.trim() !== '') {
       gear = req.body.gear.trim();
     }
 
-    if (req.body.hidestats != undefined && req.body.hidestats == 0) {
+    if (req.body.hidestats !== undefined && req.body.hidestats === 0) {
       hideStats = true;
     } else {
       hideStats = false;
     }
 
-    user.updateOne({ username: req.params.user }, { $set: { 'data.socials': socials, 'data.gear': gear, 'data.hideStats': hideStats } }, (err, doc) => {
+    user.updateOne({ username: req.params.user }, { $set: { 'data.socials': socials, 'data.gear': gear, 'data.hideStats': hideStats } }, () => {
       req.flash('info', 'profile updated');
       res.redirect(`/profile/${req.params.user}`);
     });
