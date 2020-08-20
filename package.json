@@ -7,7 +7,7 @@
     "config": "cp -n config.example.json config.json; nano config.json"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "compression": "^1.7.4",
     "connect-mongo": "^3.0.0",
     "cookie-parser": "~1.4.4",
